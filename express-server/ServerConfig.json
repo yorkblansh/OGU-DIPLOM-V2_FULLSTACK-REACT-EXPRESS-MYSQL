@@ -1,0 +1,11 @@
+{
+  "SERVER_SECRET_KEY": "key_random_text",
+  "SERVER_START_ON_PORT": "8080",
+  "SERVER_WORKIN_ON_ADRESS": "http://localhost",
+  "SERVER_MYSQL_SETTINGS": {
+    "MYSQL_HOST": "127.0.0.1",
+    "MYSQL_USER": "root",
+    "MYSQL_DATABASE": "gsm",
+    "MYSQL_PASSWORD": "root"
+  }
+}
