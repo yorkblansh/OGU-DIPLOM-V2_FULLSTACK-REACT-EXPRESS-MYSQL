@@ -9,6 +9,8 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
+import { Link as RouterLink } from "react-router-dom";
+
 const theme = createTheme();
 
 export default function Login() {
@@ -73,9 +75,9 @@ export default function Login() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
-                  {"У вас нет аккаунта? Регистрация"}
-                </Link>
+                <RouterLink to="/account/register">
+                  <Link variant="body2">У вас нет аккаунта? Регистрация</Link>
+                </RouterLink>
               </Grid>
             </Grid>
           </Box>
