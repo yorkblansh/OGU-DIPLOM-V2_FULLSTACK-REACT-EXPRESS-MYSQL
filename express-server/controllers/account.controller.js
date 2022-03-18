@@ -28,13 +28,12 @@ class AccountController {
       res
         .status(200)
         .json(`Аккаунт с логином ${loginUser} успешно зарегистрирован`);
-
-      // res.json(req.body);
     } catch (errorObject) {
-      // console.log(errorObject);
-      // res
-      //   .status(400)
-      //   .json({ message: `Ошибка создания аккаунта`, error: errorObject });
+      console.log(errorObject);
+
+      res
+        .status(400)
+        .json({ message: `Ошибка создания аккаунта`, error: errorObject });
     }
   }
 
