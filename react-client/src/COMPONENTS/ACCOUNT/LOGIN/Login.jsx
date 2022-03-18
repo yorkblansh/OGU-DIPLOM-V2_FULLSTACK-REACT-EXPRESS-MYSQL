@@ -15,7 +15,7 @@ import { Link as RouterLink } from "react-router-dom";
 
 const theme = createTheme();
 
-export default function Login() {
+export default function Login({ setStatusAccount, STATUS_ACCOUNT }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
