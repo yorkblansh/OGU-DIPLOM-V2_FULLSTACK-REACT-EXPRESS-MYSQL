@@ -5,6 +5,7 @@ import "./App.scss";
 
 import Register from "./ACCOUNT/REGISTER/Register";
 import Login from "./ACCOUNT/LOGIN/Login";
+import Profile from "./ACCOUNT/PROFILE/Profile";
 
 const STATUS_ACCOUNT = {
   ACCOUNT_NO_AUTH: 0,
@@ -15,6 +16,7 @@ const App = () => {
   const [statusAccount, setStatusAccount] = useState(
     STATUS_ACCOUNT.ACCOUNT_NO_AUTH
   );
+  const [profileUser, setProfileUser] = useState({});
 
   return (
     <div className="App">
@@ -32,10 +34,21 @@ const App = () => {
               <Login
                 setStatusAccount={setStatusAccount}
                 STATUS_ACCOUNT={STATUS_ACCOUNT}
+                setProfileUser={setProfileUser}
+                profileUser={profileUser}
               />
             ) : (
               ""
             )
+          }
+        />
+        <Route
+          path="/account/profile"
+          element={
+            <Profile
+              setProfileUser={setProfileUser}
+              profileUser={profileUser}
+            />
           }
         />
       </Routes>

@@ -9,13 +9,15 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-import { Link as RouterLink } from "react-router-dom";
+import { useNavigate, Link as RouterLink } from "react-router-dom";
 
 import Toast from "./../../../Toast";
 
 const theme = createTheme();
 
 export default function Register() {
+  let navigate = useNavigate();
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -147,10 +149,7 @@ export default function Register() {
       interval: 10000,
     });
 
-    setTimeout(() => {
-      document.location.href = "/account/login";
-    }, 8000);
-
+    setTimeout(() => navigate("/account/login"), 8000);
     return;
   };
 

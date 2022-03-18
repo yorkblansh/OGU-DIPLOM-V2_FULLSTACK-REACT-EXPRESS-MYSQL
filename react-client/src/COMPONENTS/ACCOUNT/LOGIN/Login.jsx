@@ -11,11 +11,18 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import Toast from "./../../../Toast";
 
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 
 const theme = createTheme();
 
-export default function Login({ setStatusAccount, STATUS_ACCOUNT }) {
+export default function Login({
+  setStatusAccount,
+  STATUS_ACCOUNT,
+  setProfileUser,
+  profileUser,
+}) {
+  let navigate = useNavigate();
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -97,12 +104,10 @@ export default function Login({ setStatusAccount, STATUS_ACCOUNT }) {
       interval: 10000,
     });
 
-    setTimeout(() => {
-      alert(51);
-      // document.location.href = "http://google.ru/";
-    }, 8000);
+    setStatusAccount(STATUS_ACCOUNT.ACCOUNT_AUTH);
+    setProfileUser(request.responseFetch);
 
-    console.log(request.responseFetch);
+    setTimeout(() => navigate("/account/profile"), 8000);
 
     return;
   };
