@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Мар 17 2022 г., 18:09
+-- Время создания: Мар 18 2022 г., 11:31
 -- Версия сервера: 5.5.62
 -- Версия PHP: 7.1.33
 
@@ -205,7 +205,7 @@ INSERT INTO `sheet` (`ID`, `NumberSheet`, `DateSheet`, `IDgarage`, `IDsigner`) V
 
 CREATE TABLE `worker` (
   `ID` int(10) UNSIGNED NOT NULL,
-  `FIO` varchar(50) COLLATE utf8_bin NOT NULL,
+  `FIO` varchar(100) COLLATE utf8_bin NOT NULL,
   `loginUser` varchar(20) COLLATE utf8_bin NOT NULL,
   `passwordUser` varchar(30) COLLATE utf8_bin NOT NULL,
   `Function` int(10) UNSIGNED NOT NULL DEFAULT '1',
@@ -337,7 +337,7 @@ ALTER TABLE `sheet`
 -- AUTO_INCREMENT для таблицы `worker`
 --
 ALTER TABLE `worker`
-  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
@@ -375,8 +375,8 @@ ALTER TABLE `sheet`
 -- Ограничения внешнего ключа таблицы `worker`
 --
 ALTER TABLE `worker`
-  ADD CONSTRAINT `worker_ibfk_2` FOREIGN KEY (`Function`) REFERENCES `positions` (`ID`),
-  ADD CONSTRAINT `worker_ibfk_1` FOREIGN KEY (`IDbase`) REFERENCES `base` (`ID`);
+  ADD CONSTRAINT `worker_ibfk_1` FOREIGN KEY (`IDbase`) REFERENCES `base` (`ID`),
+  ADD CONSTRAINT `worker_ibfk_2` FOREIGN KEY (`Function`) REFERENCES `positions` (`ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
