@@ -64,11 +64,11 @@ export default function Register() {
 
     if (
       `${newAccount.fio1} ${newAccount.fio2} ${newAccount.fio3}`.length < 8 ||
-      `${newAccount.fio1} ${newAccount.fio2} ${newAccount.fio3}`.length > 100
+      `${newAccount.fio1} ${newAccount.fio2} ${newAccount.fio3}`.length > 101
     ) {
       new Toast({
         title: "Ошибка",
-        text: "Фамилия, имя и отчество вместе с пробелами (Пример: Викторов Ян Васильевич) не должны быть меньше чем 8 символов",
+        text: "Фамилия, имя и отчество вместе с пробелами (Пример: Викторов Ян Васильевич) не должны быть меньше чем 8 символов или больше чем 101 символ",
         theme: "danger",
         autohide: true,
         interval: 5000,
@@ -111,7 +111,7 @@ export default function Register() {
       text: "На сервер был отправлен запрос на создание аккаунта, ждите...",
       theme: "light",
       autohide: true,
-      interval: 5000,
+      interval: 3000,
     });
 
     const request = await window.funcRequest(
@@ -126,7 +126,7 @@ export default function Register() {
         text: request.responseFetch,
         theme: "danger",
         autohide: true,
-        interval: 3000,
+        interval: 5000,
       });
       return;
     }
@@ -136,20 +136,20 @@ export default function Register() {
       text: `${request.responseFetch}`,
       theme: "success",
       autohide: true,
-      interval: 5000,
+      interval: 8000,
     });
 
     new Toast({
       title: "Переадресация",
-      text: `Пожалуйста, оставайтесь на этой странице! Через 5 секунд вас автоматически перенаправит на страницу авторизации...`,
+      text: `Пожалуйста, оставайтесь на этой странице! Через 8 секунд вас автоматически перенаправит на страницу авторизации...`,
       theme: "info",
       autohide: true,
-      interval: 8000,
+      interval: 10000,
     });
 
     setTimeout(() => {
       document.location.href = "/account/login";
-    }, 5000);
+    }, 8000);
 
     return;
   };
@@ -234,9 +234,13 @@ export default function Register() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <RouterLink to="/account/login">
-                  <Link variant="body2">Уже есть аккаунт? Авторизация</Link>
-                </RouterLink>
+                <Link
+                  component={RouterLink}
+                  variant="body2"
+                  to="/account/login"
+                >
+                  Уже есть аккаунт? Авторизация
+                </Link>
               </Grid>
             </Grid>
           </Box>

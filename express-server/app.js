@@ -5,7 +5,6 @@ let cors = require("cors");
 let axios = require("axios");
 
 const {
-  SERVER_SECRET_KEY,
   SERVER_START_ON_PORT,
   SERVER_WORKIN_ON_ADRESS,
   SERVER_MYSQL_SETTINGS,
@@ -14,18 +13,23 @@ const {
 const accountRouter = require(`./routes/Account.Router`);
 
 // __________________________________________________ ОБЪЕКТЫ
-const app = express();
+const app = express(); // Создаем приложение Express JS
 
 // __________________________________________________ ЗАПУСК СЕРВЕРА
 app.listen(SERVER_START_ON_PORT, async () => {
   try {
-    global.connectMySQL = await mysql.createPool(SERVER_MYSQL_SETTINGS);
+    global.connectMySQL = await mysql.createPool(SERVER_MYSQL_SETTINGS); // Создаем Pool подключения к СуБД MySQL
 
-    global.checkSQL = `SELECT * FROM checkConnect`;
+    global.checkSQL = `SELECT * FROM checkConnect`; // Формируем тестовый SQL-запрос
+
+    // Результат запроса будет массив с одним элементом, забираем этот элемент деструктуризацией массивов
+    // Этот элемент будет объектом, одной единственной строчкой из таблицы "checkConnect" с одним единственным
+    // свойством - названием столбца "statusConnect" и это свойство мы вытаскиваем уже деструктуризацией объекта
     let [[{ statusConnect }]] = await global.connectMySQL.execute(
-      global.checkSQL
+      global.checkSQL // Отправляем тестовый SQL-запрос
     );
 
+    // Если не пришла "1" значит что-то не так с той таблицей и теми данными или с подключения к СуБД MySQL
     if (statusConnect !== 1) {
       throw `
       Проверьте данные для подключения к СуБД MySQL
@@ -36,6 +40,7 @@ app.listen(SERVER_START_ON_PORT, async () => {
       `;
     }
 
+    // Ну и если подключение успешно, и пришла однерка и все нормально то все круто и даем знать об этом тому кто сервер запустил
     console.log(
       `Приложение Express JS запущено на порту "${SERVER_START_ON_PORT}" и подключение к СуБД MySQL успешно.`
     );
@@ -61,7 +66,7 @@ global.funcRequest = async (url, method = "GET", data = null) => {
     let response;
 
     if (method === "GET") {
-      response = await axios.get(`${URL_THIS_SERVER}:${PORT}${url}`);
+      response = await axios.get(`${SERVER_WORKIN_ON_ADRESS}:${PORT}${url}`);
     }
 
     return response.data;
@@ -75,4 +80,5 @@ global.funcRequest = async (url, method = "GET", data = null) => {
 app.use(cors());
 app.use(express.json());
 
-app.use("/account", accountRouter);
+// __________________________________________________ РОУТИНГ API
+app.use("/account", accountRouter); // API: http(s)://адрес.порт/account

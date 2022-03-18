@@ -9,22 +9,102 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
+import Toast from "./../../../Toast";
+
 import { Link as RouterLink } from "react-router-dom";
 
 const theme = createTheme();
 
 export default function Login() {
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     const data = new FormData(event.currentTarget);
 
-    // Написать авторизацию аккаунта
+    const authAccount = {
+      loginUser: data.get("loginUser"),
+      passwordUser: data.get("passwordUser"),
+    };
 
-    console.log({
-      login: data.get("loginUser"),
-      password: data.get("passwordUser"),
+    if (
+      !authAccount.loginUser.length ||
+      authAccount.loginUser.length < 2 ||
+      authAccount.loginUser.length > 20
+    ) {
+      new Toast({
+        title: "Ошибка",
+        text: "Логин не должен быть пустой строкой, либо меньше двух или больше двадцати символов",
+        theme: "danger",
+        autohide: true,
+        interval: 5000,
+      });
+      return;
+    }
+
+    if (
+      !authAccount.passwordUser.length ||
+      authAccount.passwordUser.length < 2 ||
+      authAccount.passwordUser.length > 30
+    ) {
+      new Toast({
+        title: "Ошибка",
+        text: "Пароль не должен быть пустой строкой, либо меньше двух или больше тридцати символов",
+        theme: "danger",
+        autohide: true,
+        interval: 5000,
+      });
+      return;
+    }
+
+    new Toast({
+      title: "Авторизация аккаунта",
+      text: "На сервер был отправлен запрос на авторизацию аккаунта, ждите...",
+      theme: "light",
+      autohide: true,
+      interval: 3000,
     });
+
+    const request = await window.funcRequest(
+      `/account/login`,
+      "POST",
+      authAccount
+    );
+
+    if (!request.ok && request.status === 400) {
+      new Toast({
+        title: "Ошибка при авторизации аккаунта",
+        text: request.responseFetch,
+        theme: "danger",
+        autohide: true,
+        interval: 5000,
+      });
+      return;
+    }
+
+    new Toast({
+      title: "Вас ждет успех!",
+      text: request.responseFetch.message,
+      theme: "success",
+      autohide: true,
+      interval: 8000,
+    });
+
+    new Toast({
+      title: "Переадресация",
+      text: `Пожалуйста, оставайтесь на этой странице! Через 8 секунд вас автоматически перенаправит на рабочие возможности...`,
+      theme: "info",
+      autohide: true,
+      interval: 10000,
+    });
+
+    setTimeout(() => {
+      alert(51);
+      // document.location.href = "http://google.ru/";
+    }, 8000);
+
+    console.log(request.responseFetch);
+
+    return;
   };
 
   return (
@@ -75,9 +155,13 @@ export default function Login() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <RouterLink to="/account/register">
-                  <Link variant="body2">У вас нет аккаунта? Регистрация</Link>
-                </RouterLink>
+                <Link
+                  component={RouterLink}
+                  variant="body2"
+                  to="/account/register"
+                >
+                  У вас нет аккаунта? Регистрация
+                </Link>
               </Grid>
             </Grid>
           </Box>
