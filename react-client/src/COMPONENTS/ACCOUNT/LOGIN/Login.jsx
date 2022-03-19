@@ -33,11 +33,12 @@ export default function Login({
       passwordUser: data.get("passwordUser"),
     };
 
-    if (
+    const isLoginUserFAIL =
       !authAccount.loginUser.length ||
       authAccount.loginUser.length < 2 ||
       authAccount.loginUser.length > 20
-    ) {
+
+    if (isLoginUserFAIL) {
       new Toast({
         title: "Ошибка",
         text: "Логин не должен быть пустой строкой, либо меньше двух или больше двадцати символов",
