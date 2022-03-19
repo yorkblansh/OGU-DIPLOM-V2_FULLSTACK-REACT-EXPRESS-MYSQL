@@ -26,6 +26,12 @@ export default function Login({
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    const request = await window.funcRequest(
+      `/account/login`,
+      "POST",
+      authAccount
+    )
+    const is404 = !request.ok && request.status === 400
     const data = new FormData(event.currentTarget);
 
     const authAccount = {
@@ -74,13 +80,7 @@ export default function Login({
       interval: 3000,
     });
 
-    const request = await window.funcRequest(
-      `/account/login`,
-      "POST",
-      authAccount
-    );
-
-    if (!request.ok && request.status === 400) {
+    if (is404) {
       new Toast({
         title: "Ошибка при авторизации аккаунта",
         text: request.responseFetch,
