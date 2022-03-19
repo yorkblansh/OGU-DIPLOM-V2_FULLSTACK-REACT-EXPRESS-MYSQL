@@ -1,2 +1,54 @@
 .Profile {
+  width: 100vw;
+  height: 100vh;
+
+  position: relative;
+
+  .wrapper {
+    width: 500px;
+    height: 200px;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    border-radius: 10px;
+
+    border: 1px solid red;
+
+    .header-window {
+      width: 500px;
+      height: 30px;
+
+      border-radius: 10px;
+
+      position: relative;
+
+      span {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        text-transform: uppercase;
+        font-size: 20px;
+      }
+
+      background-color: red;
+    }
+
+    .body-window {
+      height: 170px;
+      width: 500px;
+
+      position: relative;
+
+      p {
+        position: absolute;
+        left: 50%;
+        top: 35%;
+        transform: translate(-50%, -35%);
+      }
+    }
+  }
 }

@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import LoadingButton from "@mui/lab/LoadingButton";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
@@ -9,6 +10,8 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
+import SaveIcon from "@mui/icons-material/Save";
+
 import { useNavigate, Link as RouterLink } from "react-router-dom";
 
 import Toast from "./../../../Toast";
@@ -16,6 +19,9 @@ import Toast from "./../../../Toast";
 const theme = createTheme();
 
 export default function Register() {
+  const [buttonRegisterUsingStatus, setButtonRegisterUsingStatus] =
+    useState(false);
+
   let navigate = useNavigate();
 
   const handleSubmit = async (event) => {
@@ -149,6 +155,8 @@ export default function Register() {
       interval: 10000,
     });
 
+    setButtonRegisterUsingStatus(true);
+
     setTimeout(() => navigate("/account/login"), 8000);
     return;
   };
@@ -222,16 +230,34 @@ export default function Register() {
                 />
               </Grid>
             </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              onClick={(e) => {}}
-            >
-              Создать аккаунт
-            </Button>
-            <Grid container justifyContent="flex-end">
+            {buttonRegisterUsingStatus === false ? (
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+                onClick={(e) => {}}
+              >
+                Создать аккаунт
+              </Button>
+            ) : (
+              <LoadingButton
+                fullWidth
+                loading
+                loadingPosition="start"
+                startIcon={<SaveIcon />}
+                variant="outlined"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Создать аккаунт
+              </LoadingButton>
+            )}
+            <Grid container>
+              <Grid item xs>
+                <Link href="#" variant="body2" component={RouterLink} to="/">
+                  На главную
+                </Link>
+              </Grid>
               <Grid item>
                 <Link
                   component={RouterLink}

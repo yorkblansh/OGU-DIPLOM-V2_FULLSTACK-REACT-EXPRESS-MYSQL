@@ -1,4 +1,6 @@
 import * as React from "react";
+import { useState } from "react";
+import LoadingButton from "@mui/lab/LoadingButton";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
@@ -8,6 +10,8 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+import SaveIcon from "@mui/icons-material/Save";
 
 import Toast from "./../../../Toast";
 
@@ -19,8 +23,9 @@ export default function Login({
   setStatusAccount,
   STATUS_ACCOUNT,
   setProfileUser,
-  profileUser,
 }) {
+  const [buttonLoginUsingStatus, setButtonLoginUsingStatus] = useState(false);
+
   let navigate = useNavigate();
 
   const handleSubmit = async (event) => {
@@ -104,10 +109,15 @@ export default function Login({
       interval: 10000,
     });
 
-    setStatusAccount(STATUS_ACCOUNT.ACCOUNT_AUTH);
+    setButtonLoginUsingStatus(true);
+
     setProfileUser(request.responseFetch);
 
-    setTimeout(() => navigate("/account/profile"), 8000);
+    setTimeout(() => {
+      setStatusAccount(STATUS_ACCOUNT.ACCOUNT_AUTH);
+
+      navigate("/account/profile");
+    }, 8000);
 
     return;
   };
@@ -150,15 +160,36 @@ export default function Login({
               type="text"
             />
 
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Авторизировать аккаунт
-            </Button>
-            <Grid container justifyContent="flex-end">
+            {buttonLoginUsingStatus === false ? (
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Авторизировать аккаунт
+              </Button>
+            ) : (
+              <LoadingButton
+                fullWidth
+                loading
+                loadingPosition="start"
+                startIcon={<SaveIcon />}
+                variant="outlined"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Авторизировать аккаунт
+              </LoadingButton>
+            )}
+
+            <Grid container justifyContent="flex-end"></Grid>
+
+            <Grid container>
+              <Grid item xs>
+                <Link href="#" variant="body2" component={RouterLink} to="/">
+                  На главную
+                </Link>
+              </Grid>
               <Grid item>
                 <Link
                   component={RouterLink}

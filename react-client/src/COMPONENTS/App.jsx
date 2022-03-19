@@ -3,6 +3,10 @@ import { Routes, Route } from "react-router-dom";
 
 import "./App.scss";
 
+import MainPage from "./MAINPAGE/MainPage";
+
+import AccountAuthorized from "./ACCOUNT/ACCOUNTAUTHORIZED/AccountAuthorized";
+
 import Register from "./ACCOUNT/REGISTER/Register";
 import Login from "./ACCOUNT/LOGIN/Login";
 import Profile from "./ACCOUNT/PROFILE/Profile";
@@ -16,15 +20,21 @@ const App = () => {
   const [statusAccount, setStatusAccount] = useState(
     STATUS_ACCOUNT.ACCOUNT_NO_AUTH
   );
-  const [profileUser, setProfileUser] = useState({});
+  const [profileUser, setProfileUser] = useState(false);
 
   return (
     <div className="App">
       <Routes>
+        <Route path="/" element={<MainPage />} />
+
         <Route
           path="/account/register"
           element={
-            statusAccount === STATUS_ACCOUNT.ACCOUNT_NO_AUTH ? <Register /> : ""
+            statusAccount === STATUS_ACCOUNT.ACCOUNT_NO_AUTH ? (
+              <Register />
+            ) : (
+              <AccountAuthorized />
+            )
           }
         />
         <Route
@@ -35,10 +45,9 @@ const App = () => {
                 setStatusAccount={setStatusAccount}
                 STATUS_ACCOUNT={STATUS_ACCOUNT}
                 setProfileUser={setProfileUser}
-                profileUser={profileUser}
               />
             ) : (
-              ""
+              <AccountAuthorized />
             )
           }
         />
