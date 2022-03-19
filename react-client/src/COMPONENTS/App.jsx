@@ -13,9 +13,8 @@ const STATUS_ACCOUNT = {
 };
 
 const App = () => {
-  const [statusAccount, setStatusAccount] = useState(
-    STATUS_ACCOUNT.ACCOUNT_NO_AUTH
-  );
+  const isGuest = statusAccount === STATUS_ACCOUNT.ACCOUNT_NO_AUTH
+  const [statusAccount, setStatusAccount] = useState(STATUS_ACCOUNT.ACCOUNT_NO_AUTH);
   const [profileUser, setProfileUser] = useState({});
 
   return (
@@ -23,23 +22,19 @@ const App = () => {
       <Routes>
         <Route
           path="/account/register"
-          element={
-            statusAccount === STATUS_ACCOUNT.ACCOUNT_NO_AUTH ? <Register /> : ""
-          }
+          element={isGuest && <Register />}
         />
         <Route
           path="/account/login"
           element={
-            statusAccount === STATUS_ACCOUNT.ACCOUNT_NO_AUTH ? (
-              <Login
-                setStatusAccount={setStatusAccount}
-                STATUS_ACCOUNT={STATUS_ACCOUNT}
-                setProfileUser={setProfileUser}
-                profileUser={profileUser}
-              />
-            ) : (
-              ""
-            )
+            isGuest &&
+            <Login
+              setStatusAccount={setStatusAccount}
+              STATUS_ACCOUNT={STATUS_ACCOUNT}
+              setProfileUser={setProfileUser}
+              profileUser={profileUser}
+            />
+
           }
         />
         <Route
