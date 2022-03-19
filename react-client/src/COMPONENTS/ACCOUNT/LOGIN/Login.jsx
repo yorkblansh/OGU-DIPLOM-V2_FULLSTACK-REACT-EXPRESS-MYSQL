@@ -33,12 +33,18 @@ export default function Login({
       passwordUser: data.get("passwordUser"),
     };
 
-    const isLoginUserFAIL =
+    const LoginLengthCheck = (from, to) =>
       !authAccount.loginUser.length ||
-      authAccount.loginUser.length < 2 ||
-      authAccount.loginUser.length > 20
+      authAccount.loginUser.length < from ||
+      authAccount.loginUser.length > to
 
-    if (isLoginUserFAIL) {
+    const PasswordLengthCheck = (from, to) =>
+      !authAccount.passwordUser.length ||
+      authAccount.passwordUser.length < from ||
+      authAccount.passwordUser.length > to
+
+
+    if (LoginLengthCheck(2, 20)) {
       new Toast({
         title: "Ошибка",
         text: "Логин не должен быть пустой строкой, либо меньше двух или больше двадцати символов",
@@ -49,11 +55,7 @@ export default function Login({
       return;
     }
 
-    if (
-      !authAccount.passwordUser.length ||
-      authAccount.passwordUser.length < 2 ||
-      authAccount.passwordUser.length > 30
-    ) {
+    if (PasswordLengthCheck(2, 30)) {
       new Toast({
         title: "Ошибка",
         text: "Пароль не должен быть пустой строкой, либо меньше двух или больше тридцати символов",
