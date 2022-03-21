@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import LoadingButton from "@mui/lab/LoadingButton";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -11,6 +11,8 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
+import Cookies from "js-cookie";
+
 import SaveIcon from "@mui/icons-material/Save";
 
 import Toast from "./../../../Toast";
@@ -20,13 +22,62 @@ import { Link as RouterLink, useNavigate } from "react-router-dom";
 const theme = createTheme();
 
 export default function Login({
-  setStatusAccount,
-  STATUS_ACCOUNT,
-  setProfileUser,
+  funcRequest,
+  workerAccount,
+  setWorkerAccount,
 }) {
   const [buttonLoginUsingStatus, setButtonLoginUsingStatus] = useState(false);
 
   let navigate = useNavigate();
+
+  async function loadAccount(userToken) {
+    const userLoginObject = {
+      loginUser: "ELMIR.WEB",
+    };
+
+    const request = await funcRequest(
+      `/account/profile`,
+      "POST",
+      userLoginObject,
+      userToken
+    );
+
+    if (!request.ok && request.status === 400) {
+      new Toast({
+        title: "Ошибка при авторизации аккаунта",
+        text: "Ошибка при считывании аккаунта, обновите страницу!",
+        theme: "danger",
+        autohide: true,
+        interval: 10000,
+      });
+      return;
+    }
+
+    return request.responseFetch;
+  }
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(async () => {
+    let tempUserAuthCookie = Cookies.get("OGU_DIPLOM_COOKIE_AUTHTOKEN");
+
+    if (tempUserAuthCookie !== undefined && workerAccount === false) {
+      setButtonLoginUsingStatus(true);
+
+      let tempWorkerAccount = await loadAccount(tempUserAuthCookie);
+
+      setWorkerAccount(tempWorkerAccount);
+
+      new Toast({
+        title: "Ошибка",
+        text: `Вы уже авторизированы под аккаунт ${tempWorkerAccount.loginUser}. Подождите 5 секунд, вас перенаправит на профиль!`,
+        theme: "danger",
+        autohide: true,
+        interval: 10000,
+      });
+
+      setTimeout(() => navigate("/account/profile"), 5000);
+    }
+  }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -76,10 +127,11 @@ export default function Login({
       interval: 3000,
     });
 
-    const request = await window.funcRequest(
+    const request = await funcRequest(
       `/account/login`,
       "POST",
-      authAccount
+      authAccount,
+      null
     );
 
     if (!request.ok && request.status === 400) {
@@ -109,16 +161,13 @@ export default function Login({
       interval: 10000,
     });
 
+    Cookies.set("OGU_DIPLOM_COOKIE_AUTHTOKEN", request.responseFetch.token);
+
+    setWorkerAccount(request.responseFetch.acc);
+
     setButtonLoginUsingStatus(true);
 
-    setProfileUser(request.responseFetch);
-
-    setTimeout(() => {
-      setStatusAccount(STATUS_ACCOUNT.ACCOUNT_AUTH);
-
-      navigate("/account/profile");
-    }, 8000);
-
+    setTimeout(() => navigate("/account/profile"), 8000);
     return;
   };
 

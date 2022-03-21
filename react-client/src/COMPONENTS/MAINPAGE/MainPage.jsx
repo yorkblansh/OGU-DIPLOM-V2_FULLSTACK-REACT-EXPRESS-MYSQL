@@ -35,7 +35,15 @@ export default function MainPage() {
       <AppBar position="relative">
         <Toolbar>
           <Typography variant="h6" color="inherit" noWrap>
-            Автомобильная компания "ОГУ"
+            Автомобильная компания "ОГУ" |{" "}
+            <Button
+              component={RouterLink}
+              variant="body2"
+              color="primary"
+              to="/account/profile"
+            >
+              Личный кабинет
+            </Button>
           </Typography>
         </Toolbar>
       </AppBar>

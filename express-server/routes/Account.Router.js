@@ -71,14 +71,16 @@ router.post(
   AccountController.login // Передаем метод авторизации контроллера аккаунта
 );
 
+router.post("/profile", authMiddleware, AccountController.getWorkerProfile);
+
 // Роутер получения всех пользователей
 // router.get("/users", authMiddleware, AccountController.getAllUsers); // только для авторизованных пользователей
 
 // Роутер получения всех пользователей
-router.get(
-  "/users", // API: http(s)://адрес.порт/account/users
-  roleMiddleware([`Кандидат`, `Подписант`]), // Передаем один middleware на который передаем массив должностей
-  AccountController.getAllUsers // Передаем метод получения всех пользователей контроллера аккаунта
-);
+// router.get(
+//   "/users",
+//   roleMiddleware([`Подписант`]),
+//   AccountController.getAllUsers
+// );
 
 module.exports = router;

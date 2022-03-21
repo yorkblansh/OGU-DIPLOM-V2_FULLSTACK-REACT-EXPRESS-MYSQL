@@ -136,24 +136,42 @@ class AccountController {
     }
   }
 
-  // Метод получения всех пользователей
-  async getAllUsers(req, res) {
-    try {
-      let [rowsAllWorkers] = await global.connectMySQL.execute(
-        `SELECT * FROM worker` // Отправляем запрос получения всех пользователей
-      );
+  async getWorkerProfile(req, res) {
+    const { loginUser } = req.body;
 
-      res.json(rowsAllWorkers); // Результат запроса отправляем на клиент
-    } catch (errorObject) {
-      // Обработаем ошибки по необходимости
-      console.log(errorObject);
+    let [rowsCheckWorkerAccount] = await global.connectMySQL.execute(
+      `SELECT * FROM worker WHERE loginUser = '${loginUser}'` // Отправляем запрос о наличии аккаунта
+    );
 
-      res.status(400).json({
-        message: `Ошибка получения пользователей`, // Оповещаем клиент о ошибках
-        error: errorObject,
-      });
+    // Если аккаунта не существует
+    if (!rowsCheckWorkerAccount.length) {
+      return res
+        .status(400)
+        .json(`Аккаунта с логином ${loginUser} не существует.`); // Оповещаем клиента о невозможности авторизации аккаунта
     }
+
+    // console.log(rowsCheckWorkerAccount);
+    res.json(rowsCheckWorkerAccount[0]);
   }
+
+  // Метод получения всех пользователей
+  // async getAllUsers(req, res) {
+  //   try {
+  //     let [rowsAllWorkers] = await global.connectMySQL.execute(
+  //       `SELECT * FROM worker` // Отправляем запрос получения всех пользователей
+  //     );
+
+  //     res.json(rowsAllWorkers); // Результат запроса отправляем на клиент
+  //   } catch (errorObject) {
+  //     // Обработаем ошибки по необходимости
+  //     console.log(errorObject);
+
+  //     res.status(400).json({
+  //       message: `Ошибка получения пользователей`, // Оповещаем клиент о ошибках
+  //       error: errorObject,
+  //     });
+  //   }
+  // }
 }
 
 module.exports = new AccountController();

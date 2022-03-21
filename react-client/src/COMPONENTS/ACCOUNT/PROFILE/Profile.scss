@@ -1,53 +1,74 @@
 .Profile {
+  background-color: #f9f9ff;
   width: 100vw;
   height: 100vh;
 
-  position: relative;
+  .header {
+    height: 60px;
+    background-color: #ffa557;
 
-  .wrapper {
-    width: 500px;
-    height: 200px;
+    .header-wrapper {
+      display: flex;
+      justify-content: space-between;
+      width: 80%;
+      margin-left: auto;
+      margin-right: auto;
 
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+      .header-left {
+        padding-top: 16px;
 
-    border-radius: 10px;
-
-    border: 1px solid red;
-
-    .header-window {
-      width: 500px;
-      height: 30px;
-
-      border-radius: 10px;
-
-      position: relative;
-
-      span {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        text-transform: uppercase;
-        font-size: 20px;
+        span {
+          font-size: 22px;
+          color: #896e69;
+        }
       }
 
-      background-color: red;
+      .header-right {
+        padding-top: 12px;
+      }
     }
+  }
 
-    .body-window {
-      height: 170px;
-      width: 500px;
+  .body {
+    margin-top: 20px;
 
-      position: relative;
+    .body-wrapper {
+      display: flex;
+      justify-content: space-between;
+      width: 85%;
+      margin-left: auto;
+      margin-right: auto;
 
-      p {
-        position: absolute;
-        left: 50%;
-        top: 35%;
-        transform: translate(-50%, -35%);
+      .left-aside {
+        background-color: #ffa557;
+        border-radius: 15px;
+        width: 22%;
+        padding-top: 10px;
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-bottom: 10px;
+
+        Button {
+          margin-top: 10px;
+
+          &:last-child {
+            margin-bottom: 10px;
+          }
+        }
+
+        hr {
+          margin-top: 20px;
+        }
+      }
+
+      .right-content {
+        background-color: #ffa557;
+        border-radius: 15px;
+        width: 75%;
+        padding-top: 10px;
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-bottom: 10px;
       }
     }
   }

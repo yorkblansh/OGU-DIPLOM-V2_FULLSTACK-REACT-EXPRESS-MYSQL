@@ -5,22 +5,46 @@ import "./App.scss";
 
 import MainPage from "./MAINPAGE/MainPage";
 
-import AccountAuthorized from "./ACCOUNT/ACCOUNTAUTHORIZED/AccountAuthorized";
-
 import Register from "./ACCOUNT/REGISTER/Register";
 import Login from "./ACCOUNT/LOGIN/Login";
 import Profile from "./ACCOUNT/PROFILE/Profile";
 
-const STATUS_ACCOUNT = {
-  ACCOUNT_NO_AUTH: 0,
-  ACCOUNT_AUTH: 1,
-};
+import CONFIG from "./../CONFIG.json";
+
+async function funcRequest(url, method = "GET", data = null, token = null) {
+  try {
+    let headers = {};
+    let body = null;
+
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
+
+    if (data) {
+      headers["Content-Type"] = "application/json";
+      body = JSON.stringify(data);
+    }
+
+    let responseFetch = await fetch(`${CONFIG.URL_BACKEND}${url}`, {
+      method: method,
+      headers: headers,
+      body: body,
+    });
+
+    const { ok, status } = responseFetch;
+
+    responseFetch = await responseFetch.json();
+
+    const returnFetch = { ok, status, responseFetch };
+
+    return returnFetch;
+  } catch (err) {
+    console.error(err.message);
+  }
+}
 
 const App = () => {
-  const [statusAccount, setStatusAccount] = useState(
-    STATUS_ACCOUNT.ACCOUNT_NO_AUTH
-  );
-  const [profileUser, setProfileUser] = useState(false);
+  const [workerAccount, setWorkerAccount] = useState(false);
 
   return (
     <div className="App">
@@ -30,33 +54,30 @@ const App = () => {
         <Route
           path="/account/register"
           element={
-            statusAccount === STATUS_ACCOUNT.ACCOUNT_NO_AUTH ? (
-              <Register />
-            ) : (
-              <AccountAuthorized />
-            )
+            <Register
+              funcRequest={funcRequest}
+              workerAccount={workerAccount}
+              setWorkerAccount={setWorkerAccount}
+            />
           }
         />
         <Route
           path="/account/login"
           element={
-            statusAccount === STATUS_ACCOUNT.ACCOUNT_NO_AUTH ? (
-              <Login
-                setStatusAccount={setStatusAccount}
-                STATUS_ACCOUNT={STATUS_ACCOUNT}
-                setProfileUser={setProfileUser}
-              />
-            ) : (
-              <AccountAuthorized />
-            )
+            <Login
+              funcRequest={funcRequest}
+              workerAccount={workerAccount}
+              setWorkerAccount={setWorkerAccount}
+            />
           }
         />
         <Route
           path="/account/profile"
           element={
             <Profile
-              setProfileUser={setProfileUser}
-              profileUser={profileUser}
+              funcRequest={funcRequest}
+              workerAccount={workerAccount}
+              setWorkerAccount={setWorkerAccount}
             />
           }
         />
