@@ -6,51 +6,47 @@ import Toast from "./../../../Toast";
 
 import "./Profile.scss";
 
+import Avatar from "./AVATAR/Avatar";
+
 const Profile = ({ funcRequest, workerAccount, setWorkerAccount }) => {
   let navigate = useNavigate();
 
-  async function loadAccount(userToken) {
-    const userLoginObject = {
-      loginUser: "ELMIR.WEB",
-    };
-
-    const request = await funcRequest(
-      `/account/profile`,
-      "POST",
-      userLoginObject,
-      userToken
-    );
-
-    if (!request.ok && request.status === 400) {
-      new Toast({
-        title: "Ошибка при авторизации аккаунта",
-        text: "Ошибка при считывании аккаунта, обновите страницу!",
-        theme: "danger",
-        autohide: true,
-        interval: 10000,
-      });
-      return;
-    }
-
-    return request.responseFetch;
-  }
-
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(async () => {
+    let reqAccountWorker = null;
+
     let tempUserAuthCookie = Cookies.get("OGU_DIPLOM_COOKIE_AUTHTOKEN");
 
     if (tempUserAuthCookie !== undefined && workerAccount === false) {
-      let tempWorkerAccount = await loadAccount(tempUserAuthCookie);
+      reqAccountWorker = await funcRequest(
+        `/account/profile`,
+        "GET",
+        null,
+        tempUserAuthCookie
+      );
 
-      setWorkerAccount(tempWorkerAccount);
+      if (!reqAccountWorker.ok && reqAccountWorker.status === 400) {
+        new Toast({
+          title: "Ошибка при авторизации аккаунта",
+          text: "Ошибка при считывании аккаунта, обновите страницу!",
+          theme: "danger",
+          autohide: true,
+          interval: 10000,
+        });
+        return;
+      }
+
+      reqAccountWorker = reqAccountWorker.responseFetch;
 
       new Toast({
         title: "Оповещение",
-        text: `Вы были авторизированы под аккаунт ${tempWorkerAccount.loginUser}.`,
+        text: `Вы были авторизированы под аккаунт ${reqAccountWorker.loginUser}.`,
         theme: "info",
         autohide: true,
         interval: 10000,
       });
+
+      setWorkerAccount(reqAccountWorker);
     } else if (tempUserAuthCookie === undefined && workerAccount === false) {
       new Toast({
         title: "Ошибка",
@@ -63,7 +59,7 @@ const Profile = ({ funcRequest, workerAccount, setWorkerAccount }) => {
       navigate("/account/login");
       return;
     }
-  });
+  }, []);
 
   function profileExit() {
     Cookies.remove("OGU_DIPLOM_COOKIE_AUTHTOKEN");
@@ -119,7 +115,17 @@ const Profile = ({ funcRequest, workerAccount, setWorkerAccount }) => {
             </Button>
           </div>
           <div className="right-content">
-            <h3>Д</h3>
+            <div className="content-wrapper">
+              <Avatar FunctionID={workerAccount?.Function?.ID} />
+              <div className="content-main">
+                <h2>
+                  {workerAccount?.Function?.Role} {workerAccount?.FIO}
+                </h2>
+                <p>ID аккаунта: {workerAccount?.ID}</p>
+                <p>ID базы: {workerAccount?.IDbase}</p>
+                <p>Логин: {workerAccount?.loginUser}</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

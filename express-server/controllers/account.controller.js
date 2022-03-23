@@ -120,6 +120,13 @@ class AccountController {
         rowsCheckWorkerAccount[0].Function // ID должности
       );
 
+      let tempAllPositions = await global.funcRequest(`/api/positions/get`);
+
+      tempAllPositions.forEach((position) => {
+        if (position.ID === rowsCheckWorkerAccount[0].Function)
+          rowsCheckWorkerAccount[0].Function = position;
+      });
+
       // Оповещаем клиента о успешной авторизации
       res.status(200).json({
         token, // Передаем на клиент токен
@@ -137,21 +144,25 @@ class AccountController {
   }
 
   async getWorkerProfile(req, res) {
-    const { loginUser } = req.body;
+    const { login } = req.userData;
 
     let [rowsCheckWorkerAccount] = await global.connectMySQL.execute(
-      `SELECT * FROM worker WHERE loginUser = '${loginUser}'` // Отправляем запрос о наличии аккаунта
+      `SELECT * FROM worker WHERE loginUser = '${login}'` // Отправляем запрос о наличии аккаунта
     );
 
     // Если аккаунта не существует
     if (!rowsCheckWorkerAccount.length) {
-      return res
-        .status(400)
-        .json(`Аккаунта с логином ${loginUser} не существует.`); // Оповещаем клиента о невозможности авторизации аккаунта
+      return res.status(400).json(`Аккаунта с логином ${login} не существует.`); // Оповещаем клиента о невозможности авторизации аккаунта
     }
 
-    // console.log(rowsCheckWorkerAccount);
-    res.json(rowsCheckWorkerAccount[0]);
+    let tempAllPositions = await global.funcRequest(`/api/positions/get`);
+
+    tempAllPositions.forEach((position) => {
+      if (position.ID === rowsCheckWorkerAccount[0].Function)
+        rowsCheckWorkerAccount[0].Function = position;
+    });
+
+    res.status(200).json(rowsCheckWorkerAccount[0]);
   }
 
   // Метод получения всех пользователей

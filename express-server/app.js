@@ -11,6 +11,7 @@ const {
 } = require("./ServerConfig.json");
 
 const accountRouter = require(`./routes/Account.Router`);
+const positionRouter = require(`./routes/Position.Router`);
 
 // __________________________________________________ ОБЪЕКТЫ
 const app = express(); // Создаем приложение Express JS
@@ -66,7 +67,9 @@ global.funcRequest = async (url, method = "GET", data = null) => {
     let response;
 
     if (method === "GET") {
-      response = await axios.get(`${SERVER_WORKIN_ON_ADRESS}:${PORT}${url}`);
+      response = await axios.get(
+        `${SERVER_WORKIN_ON_ADRESS}:${SERVER_START_ON_PORT}${url}`
+      );
     }
 
     return response.data;
@@ -82,3 +85,4 @@ app.use(express.json());
 
 // __________________________________________________ РОУТИНГ API
 app.use("/account", accountRouter); // API: http(s)://адрес.порт/account
+app.use(`/api`, positionRouter);

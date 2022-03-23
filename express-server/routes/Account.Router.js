@@ -71,7 +71,7 @@ router.post(
   AccountController.login // Передаем метод авторизации контроллера аккаунта
 );
 
-router.post("/profile", authMiddleware, AccountController.getWorkerProfile);
+router.get("/profile", authMiddleware, AccountController.getWorkerProfile);
 
 // Роутер получения всех пользователей
 // router.get("/users", authMiddleware, AccountController.getAllUsers); // только для авторизованных пользователей
