@@ -10,12 +10,11 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-
 import Cookies from "js-cookie";
-
 import SaveIcon from "@mui/icons-material/Save";
-
 import Toast from "./../../../Toast";
+
+import authorizeAccount from "./AuthorizeAccount";
 
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 
@@ -30,32 +29,6 @@ export default function Login({
 
   let navigate = useNavigate();
 
-  async function loadAccount(userToken) {
-    const userLoginObject = {
-      loginUser: "ELMIR.WEB",
-    };
-
-    const request = await funcRequest(
-      `/account/profile`,
-      "POST",
-      userLoginObject,
-      userToken
-    );
-
-    if (!request.ok && request.status === 400) {
-      new Toast({
-        title: "Ошибка при авторизации аккаунта",
-        text: "Ошибка при считывании аккаунта, обновите страницу!",
-        theme: "danger",
-        autohide: true,
-        interval: 10000,
-      });
-      return;
-    }
-
-    return request.responseFetch;
-  }
-
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(async () => {
     let tempUserAuthCookie = Cookies.get("OGU_DIPLOM_COOKIE_AUTHTOKEN");
@@ -63,113 +36,39 @@ export default function Login({
     if (tempUserAuthCookie !== undefined && workerAccount === false) {
       setButtonLoginUsingStatus(true);
 
-      let tempWorkerAccount = await loadAccount(tempUserAuthCookie);
+      let reqAccountWorker = await funcRequest(
+        `/account/profile`,
+        "GET",
+        null,
+        tempUserAuthCookie
+      );
 
-      setWorkerAccount(tempWorkerAccount);
+      if (!reqAccountWorker.ok && reqAccountWorker.status === 400) {
+        new Toast({
+          title: "Ошибка при авторизации аккаунта",
+          text: "Ошибка при считывании аккаунта, обновите страницу!",
+          theme: "danger",
+          autohide: true,
+          interval: 10000,
+        });
+        return;
+      }
+
+      reqAccountWorker = reqAccountWorker.responseFetch;
+
+      setWorkerAccount(reqAccountWorker);
 
       new Toast({
         title: "Ошибка",
-        text: `Вы уже авторизированы под аккаунт ${tempWorkerAccount.loginUser}. Подождите 5 секунд, вас перенаправит на профиль!`,
+        text: `Вы уже авторизированы под аккаунт ${reqAccountWorker.loginUser}. Подождите 5 секунд, вас перенаправит на профиль!`,
         theme: "danger",
         autohide: true,
         interval: 10000,
       });
 
-      setTimeout(() => navigate("/account/profile"), 5000);
+      setTimeout(() => navigate("/account/dashboard"), 5000);
     }
   }, []);
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    const data = new FormData(event.currentTarget);
-
-    const authAccount = {
-      loginUser: data.get("loginUser"),
-      passwordUser: data.get("passwordUser"),
-    };
-
-    if (
-      !authAccount.loginUser.length ||
-      authAccount.loginUser.length < 2 ||
-      authAccount.loginUser.length > 20
-    ) {
-      new Toast({
-        title: "Ошибка",
-        text: "Логин не должен быть пустой строкой, либо меньше двух или больше двадцати символов",
-        theme: "danger",
-        autohide: true,
-        interval: 5000,
-      });
-      return;
-    }
-
-    if (
-      !authAccount.passwordUser.length ||
-      authAccount.passwordUser.length < 2 ||
-      authAccount.passwordUser.length > 30
-    ) {
-      new Toast({
-        title: "Ошибка",
-        text: "Пароль не должен быть пустой строкой, либо меньше двух или больше тридцати символов",
-        theme: "danger",
-        autohide: true,
-        interval: 5000,
-      });
-      return;
-    }
-
-    new Toast({
-      title: "Авторизация аккаунта",
-      text: "На сервер был отправлен запрос на авторизацию аккаунта, ждите...",
-      theme: "light",
-      autohide: true,
-      interval: 3000,
-    });
-
-    const request = await funcRequest(
-      `/account/login`,
-      "POST",
-      authAccount,
-      null
-    );
-
-    if (!request.ok && request.status === 400) {
-      new Toast({
-        title: "Ошибка при авторизации аккаунта",
-        text: request.responseFetch,
-        theme: "danger",
-        autohide: true,
-        interval: 5000,
-      });
-      return;
-    }
-
-    new Toast({
-      title: "Вас ждет успех!",
-      text: request.responseFetch.message,
-      theme: "success",
-      autohide: true,
-      interval: 8000,
-    });
-
-    new Toast({
-      title: "Переадресация",
-      text: `Пожалуйста, оставайтесь на этой странице! Через 8 секунд вас автоматически перенаправит на рабочие возможности...`,
-      theme: "info",
-      autohide: true,
-      interval: 10000,
-    });
-
-    Cookies.set("OGU_DIPLOM_COOKIE_AUTHTOKEN", request.responseFetch.token);
-
-    setWorkerAccount(request.responseFetch.acc);
-
-    setButtonLoginUsingStatus(true);
-
-    setTimeout(() => navigate("/account/profile"), 8000);
-    return;
-  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -188,7 +87,15 @@ export default function Login({
           </Typography>
           <Box
             component="form"
-            onSubmit={handleSubmit}
+            onSubmit={(event) =>
+              authorizeAccount(
+                event,
+                funcRequest,
+                setButtonLoginUsingStatus,
+                setWorkerAccount,
+                navigate
+              )
+            }
             noValidate
             sx={{ mt: 1 }}
           >

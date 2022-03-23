@@ -2,10 +2,10 @@ import React from "react";
 
 import "./Avatar.scss";
 
-import imgKandidat from "./../../../../IMAGES/1.Кандидат.jpg";
-import imgDriver from "./../../../../IMAGES/2.Водитель.jpg";
-import imgPodpisant from "./../../../../IMAGES/3.Подписант.jpg";
-import imgAdmin from "./../../../../IMAGES/4.Админ.jpg";
+import imgKandidat from "./../../../../../IMAGES/1.Кандидат.jpg";
+import imgDriver from "./../../../../../IMAGES/2.Водитель.jpg";
+import imgPodpisant from "./../../../../../IMAGES/3.Подписант.jpg";
+import imgAdmin from "./../../../../../IMAGES/4.Админ.jpg";
 
 const Avatar = ({ FunctionID }) => {
   switch (FunctionID) {

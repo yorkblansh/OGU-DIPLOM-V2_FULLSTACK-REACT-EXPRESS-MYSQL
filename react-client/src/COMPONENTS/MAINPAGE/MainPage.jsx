@@ -40,7 +40,7 @@ export default function MainPage() {
               component={RouterLink}
               variant="body2"
               color="primary"
-              to="/account/profile"
+              to="/account/dashboard"
             >
               Личный кабинет
             </Button>

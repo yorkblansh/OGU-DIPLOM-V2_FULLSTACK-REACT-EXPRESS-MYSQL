@@ -9,14 +9,12 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-
 import Cookies from "js-cookie";
-
 import SaveIcon from "@mui/icons-material/Save";
-
 import { useNavigate, Link as RouterLink } from "react-router-dom";
-
 import Toast from "./../../../Toast";
+
+import createAccount from "./CreateAccount";
 
 const theme = createTheme();
 
@@ -30,32 +28,6 @@ export default function Register({
 
   let navigate = useNavigate();
 
-  async function loadAccount(userToken) {
-    const userLoginObject = {
-      loginUser: "ELMIR.WEB",
-    };
-
-    const request = await funcRequest(
-      `/account/profile`,
-      "POST",
-      userLoginObject,
-      userToken
-    );
-
-    if (!request.ok && request.status === 400) {
-      new Toast({
-        title: "Ошибка при авторизации аккаунта",
-        text: "Ошибка при считывании аккаунта, обновите страницу!",
-        theme: "danger",
-        autohide: true,
-        interval: 10000,
-      });
-      return;
-    }
-
-    return request.responseFetch;
-  }
-
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(async () => {
     let tempUserAuthCookie = Cookies.get("OGU_DIPLOM_COOKIE_AUTHTOKEN");
@@ -63,158 +35,39 @@ export default function Register({
     if (tempUserAuthCookie !== undefined && workerAccount === false) {
       setButtonRegisterUsingStatus(true);
 
-      let tempWorkerAccount = await loadAccount(tempUserAuthCookie);
+      let reqAccountWorker = await funcRequest(
+        `/account/profile`,
+        "GET",
+        null,
+        tempUserAuthCookie
+      );
 
-      setWorkerAccount(tempWorkerAccount);
+      if (!reqAccountWorker.ok && reqAccountWorker.status === 400) {
+        new Toast({
+          title: "Ошибка при авторизации аккаунта",
+          text: "Ошибка при считывании аккаунта, обновите страницу!",
+          theme: "danger",
+          autohide: true,
+          interval: 10000,
+        });
+        return;
+      }
+
+      reqAccountWorker = reqAccountWorker.responseFetch;
+
+      setWorkerAccount(reqAccountWorker);
 
       new Toast({
         title: "Ошибка",
-        text: `Вы уже авторизированы под аккаунт ${tempWorkerAccount.loginUser}. Подождите 5 секунд, вас перенаправит на профиль!`,
+        text: `Вы уже авторизированы под аккаунт ${reqAccountWorker.loginUser}. Подождите 5 секунд, вас перенаправит на профиль!`,
         theme: "danger",
         autohide: true,
         interval: 10000,
       });
 
-      setTimeout(() => navigate("/account/profile"), 5000);
+      setTimeout(() => navigate("/account/dashboard"), 5000);
     }
   }, []);
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    const data = new FormData(event.currentTarget);
-
-    const newAccount = {
-      fio1: data.get("FIO1"),
-      fio2: data.get("FIO2"),
-      fio3: data.get("FIO3"),
-      loginUser: data.get("loginUser"),
-      passwordUser: data.get("passwordUser"),
-    };
-
-    if (!newAccount.fio1.length) {
-      new Toast({
-        title: "Ошибка",
-        text: "Строка с фамилией не должна быть пустой",
-        theme: "danger",
-        autohide: true,
-        interval: 5000,
-      });
-      return;
-    }
-
-    if (!newAccount.fio2.length) {
-      new Toast({
-        title: "Ошибка",
-        text: "Строка с именем не должна быть пустой",
-        theme: "danger",
-        autohide: true,
-        interval: 5000,
-      });
-      return;
-    }
-
-    if (!newAccount.fio3.length) {
-      new Toast({
-        title: "Ошибка",
-        text: "Строка с отчеством не должна быть пустой",
-        theme: "danger",
-        autohide: true,
-        interval: 5000,
-      });
-      return;
-    }
-
-    if (
-      `${newAccount.fio1} ${newAccount.fio2} ${newAccount.fio3}`.length < 8 ||
-      `${newAccount.fio1} ${newAccount.fio2} ${newAccount.fio3}`.length > 101
-    ) {
-      new Toast({
-        title: "Ошибка",
-        text: "Фамилия, имя и отчество вместе с пробелами (Пример: Викторов Ян Васильевич) не должны быть меньше чем 8 символов или больше чем 101 символ",
-        theme: "danger",
-        autohide: true,
-        interval: 5000,
-      });
-      return;
-    }
-
-    if (
-      !newAccount.loginUser.length ||
-      newAccount.loginUser.length < 2 ||
-      newAccount.loginUser.length > 20
-    ) {
-      new Toast({
-        title: "Ошибка",
-        text: "Логин не должен быть пустой строкой, либо меньше двух или больше двадцати символов",
-        theme: "danger",
-        autohide: true,
-        interval: 5000,
-      });
-      return;
-    }
-
-    if (
-      !newAccount.passwordUser.length ||
-      newAccount.passwordUser.length < 2 ||
-      newAccount.passwordUser.length > 30
-    ) {
-      new Toast({
-        title: "Ошибка",
-        text: "Пароль не должен быть пустой строкой, либо меньше двух или больше тридцати символов",
-        theme: "danger",
-        autohide: true,
-        interval: 5000,
-      });
-      return;
-    }
-
-    new Toast({
-      title: "Создание аккаунта",
-      text: "На сервер был отправлен запрос на создание аккаунта, ждите...",
-      theme: "light",
-      autohide: true,
-      interval: 3000,
-    });
-
-    const request = await window.funcRequest(
-      `/account/register`,
-      "POST",
-      newAccount
-    );
-
-    if (!request.ok && request.status === 400) {
-      new Toast({
-        title: "Ошибка при создании аккаунта",
-        text: request.responseFetch,
-        theme: "danger",
-        autohide: true,
-        interval: 5000,
-      });
-      return;
-    }
-
-    new Toast({
-      title: "Вас ждет успех!",
-      text: `${request.responseFetch}`,
-      theme: "success",
-      autohide: true,
-      interval: 8000,
-    });
-
-    new Toast({
-      title: "Переадресация",
-      text: `Пожалуйста, оставайтесь на этой странице! Через 8 секунд вас автоматически перенаправит на страницу авторизации...`,
-      theme: "info",
-      autohide: true,
-      interval: 10000,
-    });
-
-    setButtonRegisterUsingStatus(true);
-
-    setTimeout(() => navigate("/account/login"), 8000);
-    return;
-  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -234,7 +87,14 @@ export default function Register({
           <Box
             component="form"
             noValidate
-            onSubmit={handleSubmit}
+            onSubmit={(event) =>
+              createAccount(
+                event,
+                funcRequest,
+                setButtonRegisterUsingStatus,
+                navigate
+              )
+            }
             sx={{ mt: 3 }}
           >
             <Grid container spacing={2}>

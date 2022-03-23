@@ -7,7 +7,7 @@ import MainPage from "./MAINPAGE/MainPage";
 
 import Register from "./ACCOUNT/REGISTER/Register";
 import Login from "./ACCOUNT/LOGIN/Login";
-import Profile from "./ACCOUNT/PROFILE/Profile";
+import Dashboard from "./ACCOUNT/DASHBOARD/Dashboard";
 
 import CONFIG from "./../CONFIG.json";
 
@@ -72,9 +72,9 @@ const App = () => {
           }
         />
         <Route
-          path="/account/profile"
+          path="/account/dashboard/*"
           element={
-            <Profile
+            <Dashboard
               funcRequest={funcRequest}
               workerAccount={workerAccount}
               setWorkerAccount={setWorkerAccount}

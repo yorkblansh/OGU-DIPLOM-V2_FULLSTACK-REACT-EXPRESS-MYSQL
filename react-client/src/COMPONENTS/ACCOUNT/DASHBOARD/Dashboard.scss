@@ -1,4 +1,4 @@
-.Profile {
+.Dashboard {
   background-color: #f9f9ff;
   width: 100vw;
   height: 100vh;
@@ -48,16 +48,9 @@
         padding-right: 20px;
         padding-bottom: 10px;
 
-        Button {
-          margin-top: 10px;
-
-          &:last-child {
-            margin-bottom: 10px;
-          }
-        }
-
         hr {
           margin-top: 20px;
+          margin-bottom: 20px;
         }
       }
 
@@ -69,12 +62,6 @@
         padding-left: 20px;
         padding-right: 20px;
         padding-bottom: 10px;
-
-        .content-wrapper {
-          display: flex;
-          justify-content: space-between;
-          color: #896e69;
-        }
       }
     }
   }
