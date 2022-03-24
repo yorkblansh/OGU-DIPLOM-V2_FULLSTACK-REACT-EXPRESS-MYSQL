@@ -6,11 +6,11 @@ const { check } = require("express-validator"); // Импортируем фун
 const router = new Router();
 
 // __________________________________________________ КОНТРОЛЛЕРЫ
-const AccountController = require("../controllers/account.controller"); // Контроллер аккаунта
+const AccountController = require("../controllers/Account.Controller"); // Контроллер аккаунта
 
 // __________________________________________________ Middlewares
-const authMiddleware = require("./../middlewares/auth.middleware"); // Middleware проверки на авторизованность
-const roleMiddleware = require("./../middlewares/role.middleware"); // Middleware проверки на доступ по должности
+const authMiddleware = require("../middlewares/Auth.Middleware"); // Middleware проверки на авторизованность
+// const roleMiddleware = require("./../middlewares/role.middleware"); // Middleware проверки на доступ по должности
 
 // __________________________________________________ Роутеры API
 // Роутер регистрации

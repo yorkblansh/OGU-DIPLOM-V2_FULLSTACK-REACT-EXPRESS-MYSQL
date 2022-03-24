@@ -33,6 +33,11 @@ const Dashboard = ({ funcRequest, workerAccount, setWorkerAccount }) => {
         tempUserAuthCookie
       );
 
+      Cookies.set(
+        "OGU_DIPLOM_COOKIE_AUTHTOKEN",
+        reqAccountWorker.responseFetch.token
+      );
+
       if (!reqAccountWorker.ok && reqAccountWorker.status === 400) {
         new Toast({
           title: "Ошибка при авторизации аккаунта",
@@ -44,7 +49,7 @@ const Dashboard = ({ funcRequest, workerAccount, setWorkerAccount }) => {
         return;
       }
 
-      reqAccountWorker = reqAccountWorker.responseFetch;
+      reqAccountWorker = reqAccountWorker.responseFetch.acc;
 
       new Toast({
         title: "Оповещение",
@@ -192,15 +197,42 @@ const Dashboard = ({ funcRequest, workerAccount, setWorkerAccount }) => {
                 index
                 element={<Profile workerAccount={workerAccount} />}
               />
-              <Route path="autobase" element={<AutoBase />} />
-              <Route path="types-gsm" element={<TypesGSM />} />
-              <Route path="autogarages" element={<AutoGarages />} />
-              <Route path="autos" element={<Autos />} />
-              <Route path="workers" element={<Workers />} />
-              <Route path="sheets" element={<Sheets />} />
-              <Route path="records" element={<Records />} />
-              <Route path="gsm-day-garage" element={<GSMDayGarage />} />
-              <Route path="report-sheet" element={<ReportSheet />} />
+              <Route
+                path="autobase"
+                element={<AutoBase funcRequest={funcRequest} />}
+              />
+              <Route
+                path="types-gsm"
+                element={<TypesGSM funcRequest={funcRequest} />}
+              />
+              <Route
+                path="autogarages"
+                element={<AutoGarages funcRequest={funcRequest} />}
+              />
+              <Route
+                path="autos"
+                element={<Autos funcRequest={funcRequest} />}
+              />
+              <Route
+                path="workers"
+                element={<Workers funcRequest={funcRequest} />}
+              />
+              <Route
+                path="sheets"
+                element={<Sheets funcRequest={funcRequest} />}
+              />
+              <Route
+                path="records"
+                element={<Records funcRequest={funcRequest} />}
+              />
+              <Route
+                path="gsm-day-garage"
+                element={<GSMDayGarage funcRequest={funcRequest} />}
+              />
+              <Route
+                path="report-sheet"
+                element={<ReportSheet funcRequest={funcRequest} />}
+              />
             </Routes>
           </div>
         </div>

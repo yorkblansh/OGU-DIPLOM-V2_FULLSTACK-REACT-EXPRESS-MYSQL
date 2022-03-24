@@ -3,11 +3,12 @@ const { validationResult } = require("express-validator"); // Импортиру
 const jwt = require("jsonwebtoken");
 
 // __________________________________________________ НАСТРОЙКИ
-const { SERVER_SECRET_KEY } = require("./../ServerConfig.json");
+const { SERVER_SECRET_KEY } = require("../ServerConfig.json");
 
 // __________________________________________________ ДОПОЛНИТЕЛЬНЫЙ ФУНКЦИОНАЛ
 // Функция генерации токена
 function generateAccessToken(id, login, password, func) {
+  func = func.ID;
   // Полученную от функции данные засовываем в payload
   const payload = { id, login, password, func };
 
@@ -112,6 +113,13 @@ class AccountController {
         return res.status(400).json(`Пароль от аккаунта введен не правильно.`); // Оповещаем клиента о невозможности авторизации аккаунта
       }
 
+      let tempAllPositions = await global.funcRequest(`/api/positions/get`);
+
+      tempAllPositions.forEach((position) => {
+        if (position.ID === rowsCheckWorkerAccount[0].Function)
+          rowsCheckWorkerAccount[0].Function = position;
+      });
+
       // Вызываем функцию генерации токена
       const token = generateAccessToken(
         rowsCheckWorkerAccount[0].ID, // Передаем на нее ID аккаунта
@@ -119,13 +127,6 @@ class AccountController {
         rowsCheckWorkerAccount[0].passwordUser, // Пароль
         rowsCheckWorkerAccount[0].Function // ID должности
       );
-
-      let tempAllPositions = await global.funcRequest(`/api/positions/get`);
-
-      tempAllPositions.forEach((position) => {
-        if (position.ID === rowsCheckWorkerAccount[0].Function)
-          rowsCheckWorkerAccount[0].Function = position;
-      });
 
       // Оповещаем клиента о успешной авторизации
       res.status(200).json({
@@ -162,7 +163,20 @@ class AccountController {
         rowsCheckWorkerAccount[0].Function = position;
     });
 
-    res.status(200).json(rowsCheckWorkerAccount[0]);
+    // Вызываем функцию генерации токена
+    const token = generateAccessToken(
+      rowsCheckWorkerAccount[0].ID, // Передаем на нее ID аккаунта
+      rowsCheckWorkerAccount[0].loginUser, // Логин
+      rowsCheckWorkerAccount[0].passwordUser, // Пароль
+      rowsCheckWorkerAccount[0].Function // ID должности
+    );
+
+    // Оповещаем клиента о успешной авторизации
+    res.status(200).json({
+      token, // Передаем на клиент токен
+      message: `Аккаунт успешно авторизирован`, // Сообщение успеха
+      acc: rowsCheckWorkerAccount[0], // Данные аккаунта
+    });
   }
 
   // Метод получения всех пользователей

@@ -12,6 +12,9 @@ const {
 
 const accountRouter = require(`./routes/Account.Router`);
 const positionRouter = require(`./routes/Position.Router`);
+const autoBaseRouter = require("./routes/Autobase.Router");
+const typesGSMRouter = require("./routes/TypesGSM.Router");
+const autoGarageRouter = require("./routes/AutoGarage.Router");
 
 // __________________________________________________ ОБЪЕКТЫ
 const app = express(); // Создаем приложение Express JS
@@ -86,3 +89,6 @@ app.use(express.json());
 // __________________________________________________ РОУТИНГ API
 app.use("/account", accountRouter); // API: http(s)://адрес.порт/account
 app.use(`/api`, positionRouter);
+app.use("/api", autoBaseRouter);
+app.use("/api", typesGSMRouter);
+app.use("/api", autoGarageRouter);
