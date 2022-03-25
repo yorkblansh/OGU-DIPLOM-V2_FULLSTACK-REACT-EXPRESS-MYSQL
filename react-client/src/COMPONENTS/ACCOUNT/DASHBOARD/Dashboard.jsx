@@ -21,8 +21,10 @@ import ReportSheet from "./REPORTSHEET/ReportSheet";
 const Dashboard = ({ funcRequest, workerAccount, setWorkerAccount }) => {
   let navigate = useNavigate();
 
+  useEffect(loadComponentDashboard, []);
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(async () => {
+  async function loadComponentDashboard() {
     let tempUserAuthCookie = Cookies.get("OGU_DIPLOM_COOKIE_AUTHTOKEN");
 
     if (tempUserAuthCookie !== undefined && workerAccount === false) {
@@ -72,7 +74,7 @@ const Dashboard = ({ funcRequest, workerAccount, setWorkerAccount }) => {
       navigate("/account/login");
       return;
     }
-  }, []);
+  }
 
   function dashboardExit() {
     Cookies.remove("OGU_DIPLOM_COOKIE_AUTHTOKEN");
@@ -195,7 +197,13 @@ const Dashboard = ({ funcRequest, workerAccount, setWorkerAccount }) => {
             <Routes>
               <Route
                 index
-                element={<Profile workerAccount={workerAccount} />}
+                element={
+                  <Profile
+                    workerAccount={workerAccount}
+                    funcRequest={funcRequest}
+                    setWorkerAccount={setWorkerAccount}
+                  />
+                }
               />
               <Route
                 path="autobase"
@@ -215,7 +223,7 @@ const Dashboard = ({ funcRequest, workerAccount, setWorkerAccount }) => {
               />
               <Route
                 path="workers"
-                element={<Workers funcRequest={funcRequest} />}
+                element={<Workers funcRequest={funcRequest} />} // тут
               />
               <Route
                 path="sheets"

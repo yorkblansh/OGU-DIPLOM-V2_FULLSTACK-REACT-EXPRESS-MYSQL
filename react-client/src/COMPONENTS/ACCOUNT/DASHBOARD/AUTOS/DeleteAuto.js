@@ -1,10 +1,10 @@
 import Toast from "./../../../../Toast";
 import Cookies from "js-cookie";
 
-async function deleteAutoGarage(
-  autogarage = null,
+async function deleteVehicle(
+  veh = null,
   funcRequest,
-  loadAutoGarages,
+  loadVehicles,
   statusAccessEditing
 ) {
   if (!statusAccessEditing) {
@@ -18,12 +18,10 @@ async function deleteAutoGarage(
     return;
   }
 
-  // TODO: РАЗОБРАТЬСЯ ПОЧЕМУ "УСПЕХ БЫЛ ЕСЛИ ВЫШЕ УБРАТЬ ОТСУТСТВИЕ ДОСТУПА"
-
   let tempUserAuthCookie = Cookies.get("OGU_DIPLOM_COOKIE_AUTHTOKEN");
 
   const response = await funcRequest(
-    `/api/autogarage/delete/${autogarage.ID}`,
+    `/api/vehicle/delete/${veh.ID}`,
     "DELETE",
     null,
     tempUserAuthCookie
@@ -31,7 +29,7 @@ async function deleteAutoGarage(
 
   if (response.ok === false && response.status === 400) {
     new Toast({
-      title: "Ошибка при удалении гаража",
+      title: "Ошибка при удалении автомобиля",
       text: response.responseFetch,
       theme: "danger",
       autohide: true,
@@ -48,7 +46,7 @@ async function deleteAutoGarage(
     interval: 10000,
   });
 
-  loadAutoGarages();
+  loadVehicles();
 }
 
-export default deleteAutoGarage;
+export default deleteVehicle;

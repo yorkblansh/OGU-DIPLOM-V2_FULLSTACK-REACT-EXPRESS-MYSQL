@@ -89,7 +89,8 @@ const TypesGSM = ({ funcRequest }) => {
                             itemGsm,
                             changedGSM,
                             setChangedGSM,
-                            setInputObjectGSM
+                            setInputObjectGSM,
+                            statusAccessEditing
                           );
                         }}
                       >

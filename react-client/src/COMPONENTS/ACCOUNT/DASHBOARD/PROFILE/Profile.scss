@@ -1,5 +1,7 @@
 .Profile {
-  display: flex;
-  justify-content: space-between;
-  color: #896e69;
+  .profile-wrapper {
+    display: flex;
+    justify-content: space-between;
+    color: #896e69;
+  }
 }

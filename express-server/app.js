@@ -12,9 +12,10 @@ const {
 
 const accountRouter = require(`./routes/Account.Router`);
 const positionRouter = require(`./routes/Position.Router`);
-const autoBaseRouter = require("./routes/Autobase.Router");
+const autoBaseRouter = require("./routes/AutoBase.Router");
 const typesGSMRouter = require("./routes/TypesGSM.Router");
 const autoGarageRouter = require("./routes/AutoGarage.Router");
+const vehicleRouter = require("./routes/Vehicle.Router");
 
 // __________________________________________________ ОБЪЕКТЫ
 const app = express(); // Создаем приложение Express JS
@@ -92,3 +93,4 @@ app.use(`/api`, positionRouter);
 app.use("/api", autoBaseRouter);
 app.use("/api", typesGSMRouter);
 app.use("/api", autoGarageRouter);
+app.use("/api", vehicleRouter);

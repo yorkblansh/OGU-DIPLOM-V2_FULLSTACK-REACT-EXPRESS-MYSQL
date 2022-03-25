@@ -73,6 +73,14 @@ router.post(
 
 router.get("/profile", authMiddleware, AccountController.getWorkerProfile);
 
+router.post("/profile/change", authMiddleware, AccountController.setFIO);
+
+router.post(
+  "/profile/access-data/change",
+  authMiddleware,
+  AccountController.setAccessData
+);
+
 // Роутер получения всех пользователей
 // router.get("/users", authMiddleware, AccountController.getAllUsers); // только для авторизованных пользователей
 

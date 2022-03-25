@@ -8,6 +8,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import Toast from "./../../../../Toast";
 
 import "./AutoGarages.scss";
 
@@ -88,7 +89,8 @@ const AutoGarages = ({ funcRequest }) => {
                           deleteAutoGarage(
                             autogarage,
                             funcRequest,
-                            loadAutoGarages
+                            loadAutoGarages,
+                            statusAccessEditing
                           )
                         }
                       >
@@ -105,7 +107,8 @@ const AutoGarages = ({ funcRequest }) => {
                             autogarage,
                             changedAutoGarage,
                             setChangedAutoGarage,
-                            setInputObjectAutoGarage
+                            setInputObjectAutoGarage,
+                            statusAccessEditing
                           );
                         }}
                       >
@@ -157,9 +160,21 @@ const AutoGarages = ({ funcRequest }) => {
                   <Select
                     labelId="auto-garage-change-select-auto-base"
                     label="Выберите автобазу"
-                    defaultValue={0}
+                    defaultValue={99999}
                     onChange={(e) => {
                       let tempAutoBase = e.target.value;
+
+                      if (tempAutoBase === 99999) {
+                        new Toast({
+                          title: "Ошибка при выборе",
+                          text: "Этот пукнт не доступен к выбору",
+                          theme: "danger",
+                          autohide: true,
+                          interval: 10000,
+                        });
+
+                        return;
+                      }
 
                       let tempThisGarage = {
                         ...inputObjectAutoGarage,
@@ -170,6 +185,10 @@ const AutoGarages = ({ funcRequest }) => {
                       setInputObjectAutoGarage(tempThisGarage);
                     }}
                   >
+                    <MenuItem value={99999}>
+                      Выберите автомобильную базу
+                    </MenuItem>
+
                     {allAutoBases.map((autobase) => {
                       return (
                         <MenuItem value={autobase.ID} key={autobase.ID}>
@@ -229,9 +248,21 @@ const AutoGarages = ({ funcRequest }) => {
               <Select
                 labelId="auto-garage-create-select-auto-base"
                 label="Выберите автобазу"
-                defaultValue="0"
+                defaultValue={99999}
                 onChange={(e) => {
                   let tempAutoBase = e.target.value;
+
+                  if (tempAutoBase === 99999) {
+                    new Toast({
+                      title: "Ошибка при выборе",
+                      text: "Этот пукнт не доступен к выбору",
+                      theme: "danger",
+                      autohide: true,
+                      interval: 10000,
+                    });
+
+                    return;
+                  }
 
                   setCreateAutoBase({
                     ...createAutoBase,
@@ -239,6 +270,7 @@ const AutoGarages = ({ funcRequest }) => {
                   });
                 }}
               >
+                <MenuItem value={99999}>Выберите автомобильную базу</MenuItem>
                 {allAutoBases.map((autobase) => {
                   return (
                     <MenuItem key={autobase.ID} value={autobase.ID}>

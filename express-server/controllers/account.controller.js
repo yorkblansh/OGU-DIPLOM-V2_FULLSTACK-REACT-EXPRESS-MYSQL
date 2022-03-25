@@ -113,12 +113,17 @@ class AccountController {
         return res.status(400).json(`Пароль от аккаунта введен не правильно.`); // Оповещаем клиента о невозможности авторизации аккаунта
       }
 
-      let tempAllPositions = await global.funcRequest(`/api/positions/get`);
+      let tempPositions = await global.funcRequest(
+        `/api/position/get/${rowsCheckWorkerAccount[0].Function}`
+      );
 
-      tempAllPositions.forEach((position) => {
-        if (position.ID === rowsCheckWorkerAccount[0].Function)
-          rowsCheckWorkerAccount[0].Function = position;
-      });
+      rowsCheckWorkerAccount[0].Function = tempPositions;
+
+      let tempBase = await global.funcRequest(
+        `/api/autobase/get/${rowsCheckWorkerAccount[0].IDbase}`
+      );
+
+      rowsCheckWorkerAccount[0].IDbase = tempBase;
 
       // Вызываем функцию генерации токена
       const token = generateAccessToken(
@@ -156,12 +161,17 @@ class AccountController {
       return res.status(400).json(`Аккаунта с логином ${login} не существует.`); // Оповещаем клиента о невозможности авторизации аккаунта
     }
 
-    let tempAllPositions = await global.funcRequest(`/api/positions/get`);
+    let tempPositions = await global.funcRequest(
+      `/api/position/get/${rowsCheckWorkerAccount[0].Function}`
+    );
 
-    tempAllPositions.forEach((position) => {
-      if (position.ID === rowsCheckWorkerAccount[0].Function)
-        rowsCheckWorkerAccount[0].Function = position;
-    });
+    rowsCheckWorkerAccount[0].Function = tempPositions;
+
+    let tempBase = await global.funcRequest(
+      `/api/autobase/get/${rowsCheckWorkerAccount[0].IDbase}`
+    );
+
+    rowsCheckWorkerAccount[0].IDbase = tempBase;
 
     // Вызываем функцию генерации токена
     const token = generateAccessToken(
@@ -179,24 +189,38 @@ class AccountController {
     });
   }
 
-  // Метод получения всех пользователей
-  // async getAllUsers(req, res) {
-  //   try {
-  //     let [rowsAllWorkers] = await global.connectMySQL.execute(
-  //       `SELECT * FROM worker` // Отправляем запрос получения всех пользователей
-  //     );
+  async setFIO(req, res) {
+    const { FIO1, FIO2, FIO3 } = req.body;
+    const { id: ID } = req.userData;
 
-  //     res.json(rowsAllWorkers); // Результат запроса отправляем на клиент
-  //   } catch (errorObject) {
-  //     // Обработаем ошибки по необходимости
-  //     console.log(errorObject);
+    const [rowsUpdatedFIO] = await global.connectMySQL.execute(
+      `UPDATE worker SET FIO = '${FIO1} ${FIO2} ${FIO3}' WHERE ID = ${ID}`
+    );
 
-  //     res.status(400).json({
-  //       message: `Ошибка получения пользователей`, // Оповещаем клиент о ошибках
-  //       error: errorObject,
-  //     });
-  //   }
-  // }
+    if (rowsUpdatedFIO["affectedRows"])
+      res.status(200).json({
+        message: `Аккаунт работника ${ID} обновил данные (ФИО: "${FIO1} ${FIO2} ${FIO3}").`,
+        data: `${FIO1} ${FIO2} ${FIO3}`,
+      });
+    else res.status(400).json({ message: `Аккаунт с ID: ${ID} не изменен` });
+  }
+
+  async setAccessData(req, res) {
+    const { loginUser, passwordUser } = req.body;
+    const { id: ID } = req.userData;
+
+    const [rowsUpdatedAccessData] = await global.connectMySQL.execute(
+      `UPDATE worker SET loginUser = '${loginUser}', passwordUser = '${passwordUser}' WHERE ID = ${ID}`
+    );
+
+    if (rowsUpdatedAccessData["affectedRows"])
+      res.status(200).json({
+        message: `Аккаунт работника ${ID} обновил данные (Логин: "${loginUser}" и Пароль:  "${passwordUser}").`,
+        loginUser,
+        passwordUser,
+      });
+    else res.status(400).json({ message: `Аккаунт с ID: ${ID} не изменен` });
+  }
 }
 
 module.exports = new AccountController();

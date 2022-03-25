@@ -1,10 +1,10 @@
 import Toast from "./../../../../Toast";
 
-async function beginUpdateGSM(
-  itemGsm = null,
-  changedGSM,
-  setChangedGSM,
-  setInputObjectGSM,
+async function beginUpdateVeh(
+  veh = null,
+  changedVehicle,
+  setChangedVehicle,
+  setInputObjectVehicle,
   statusAccessEditing
 ) {
   if (!statusAccessEditing) {
@@ -18,29 +18,31 @@ async function beginUpdateGSM(
     return;
   }
 
-  if (changedGSM === null && itemGsm !== null) {
-    setChangedGSM(itemGsm);
+  if (changedVehicle === null && veh !== null) {
+    setChangedVehicle(veh);
 
-    setInputObjectGSM({
+    setInputObjectVehicle({
       ID: null,
-      Name: "",
-      ForKilo: "",
+      Model: "",
+      Number: "",
+      IDgarage: null,
     });
   } else if (
-    changedGSM !== null &&
-    itemGsm !== null &&
-    changedGSM !== itemGsm
+    changedVehicle !== null &&
+    veh !== null &&
+    changedVehicle !== veh
   ) {
-    setChangedGSM(itemGsm);
+    setChangedVehicle(veh);
 
-    setInputObjectGSM({
+    setInputObjectVehicle({
       ID: null,
-      Name: "",
-      ForKilo: "",
+      Model: "",
+      Number: "",
+      IDgarage: null,
     });
   } else {
-    setChangedGSM(null);
+    setChangedVehicle(null);
   }
 }
 
-export default beginUpdateGSM;
+export default beginUpdateVeh;
