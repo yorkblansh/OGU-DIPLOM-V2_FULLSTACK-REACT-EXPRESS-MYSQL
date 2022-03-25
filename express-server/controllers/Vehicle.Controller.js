@@ -1,5 +1,3 @@
-let axios = require("axios");
-
 class VehicleController {
   async getAccess(req, res) {
     return res.status(200).json({ access: true, message: "Доступ открыт" });
@@ -24,7 +22,9 @@ class VehicleController {
 
     for (let index = 0; index < rowsAllVeh.length; index++) {
       rowsAllVeh[index].IDgarage = await global.funcRequest(
-        `/api/autogarage/get/${rowsAllVeh[index].IDgarage}`
+        `/api/autogarage/get/${rowsAllVeh[index].IDgarage}`,
+        "GET",
+        null
       );
     }
 

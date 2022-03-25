@@ -45,7 +45,7 @@ const Autos = ({ funcRequest }) => {
 
     setStatusAccessEditing(tempGetAccess.responseFetch.access);
 
-    const vehicles = await funcRequest(`/api/vehicle/get`);
+    const vehicles = await funcRequest(`/api/vehicles/get`, "GET", null, null);
 
     setVehicles(vehicles.responseFetch);
 

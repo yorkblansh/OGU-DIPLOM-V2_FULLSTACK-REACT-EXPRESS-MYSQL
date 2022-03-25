@@ -223,7 +223,13 @@ const Dashboard = ({ funcRequest, workerAccount, setWorkerAccount }) => {
               />
               <Route
                 path="workers"
-                element={<Workers funcRequest={funcRequest} />} // тут
+                element={
+                  <Workers
+                    funcRequest={funcRequest}
+                    workerAccount={workerAccount}
+                    dashboardExit={dashboardExit}
+                  />
+                }
               />
               <Route
                 path="sheets"

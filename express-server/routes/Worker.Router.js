@@ -1,30 +1,30 @@
 const Router = require("express");
-const vehicleController = require("../controllers/Vehicle.Controller");
+const workerController = require("../controllers/Worker.Controller");
 const roleMiddleware = require("../middlewares/Role.Middleware"); // Middleware проверки на доступ по должности
 
 const router = new Router();
 
-router.get("/vehicles/get", vehicleController.getVehicles);
-router.get("/vehicle/get/:id", vehicleController.getOneVehicle);
+router.get("/workers/get", workerController.getWorkers);
+router.get("/worker/get/:id", workerController.getOneWoker);
 router.get(
-  "/vehicle/access",
+  "/worker/access",
   roleMiddleware(["Админ"]),
-  vehicleController.getAccess
+  workerController.getAccess
 );
 router.delete(
-  "/vehicle/delete/:id",
+  "/worker/delete/:id",
   roleMiddleware(["Админ"]),
-  vehicleController.deleteVehicle
+  workerController.deleteWorker
 );
 router.put(
-  "/vehicle/change",
+  "/worker/change",
   roleMiddleware(["Админ"]),
-  vehicleController.updateVehicle
+  workerController.updateWorker
 );
 router.post(
-  "/vehicle/create",
+  "/worker/create",
   roleMiddleware(["Админ"]),
-  vehicleController.createVehicle
+  workerController.createWorker
 );
 
 module.exports = router;

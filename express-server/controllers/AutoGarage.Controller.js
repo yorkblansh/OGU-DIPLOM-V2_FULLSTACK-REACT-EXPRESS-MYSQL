@@ -36,15 +36,15 @@ class AutoGarageController {
   async getOneAutoGarage(req, res) {
     const idGarage = req.params.id;
 
-    let [rowsAllAutoGarages] = await global.connectMySQL.execute(
+    let [rowsAutoGarages] = await global.connectMySQL.execute(
       `SELECT * FROM garage WHERE ID = ${idGarage}`
     );
 
-    rowsAllAutoGarages[0].IDbase = await global.funcRequest(
-      `/api/autobase/${rowsAllAutoGarages[0].IDbase}`
+    rowsAutoGarages[0].IDbase = await global.funcRequest(
+      `/api/autobase/get/${rowsAutoGarages[0].IDbase}`
     );
 
-    res.status(200).json(rowsAllAutoGarages[0]);
+    res.status(200).json(rowsAutoGarages[0]);
   }
 
   // изменить авто гараж
