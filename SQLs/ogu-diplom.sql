@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Мар 18 2022 г., 11:31
+-- Время создания: Мар 25 2022 г., 20:45
 -- Версия сервера: 5.5.62
 -- Версия PHP: 7.1.33
 
@@ -39,7 +39,8 @@ CREATE TABLE `base` (
 INSERT INTO `base` (`ID`, `Name`) VALUES
 (0, 'Временное содержание кандидатов'),
 (1, 'База №1'),
-(2, 'База №2');
+(2, 'База №2'),
+(4, 'Тестовая автобаза');
 
 -- --------------------------------------------------------
 
@@ -59,7 +60,7 @@ CREATE TABLE `car` (
 --
 
 INSERT INTO `car` (`ID`, `Model`, `Number`, `IDgarage`) VALUES
-(1, 'ВАЗ', 'АА111А', 1),
+(1, 'ВАЗ', 'А111АА', 1),
 (2, 'ГАЗ', 'ББ222Б', 2),
 (3, 'КАМАЗ', 'ВВ333В', 3),
 (4, 'ЗИЛ', 'ГГ444Г', 2);
@@ -98,7 +99,7 @@ CREATE TABLE `garage` (
 --
 
 INSERT INTO `garage` (`ID`, `Name`, `IDbase`) VALUES
-(1, 'Гараж №1', 1),
+(1, 'Первый гараж', 1),
 (2, 'Гараж №2', 1),
 (3, 'Гараж №3', 2);
 
@@ -119,7 +120,7 @@ CREATE TABLE `gsm` (
 --
 
 INSERT INTO `gsm` (`ID`, `Name`, `ForKilo`) VALUES
-(1, 'Бензин', '0.750'),
+(1, 'Бензин', '0.980'),
 (2, 'Дизтопливо', '0.850'),
 (3, 'Масло', '0.900');
 
@@ -131,14 +132,14 @@ INSERT INTO `gsm` (`ID`, `Name`, `ForKilo`) VALUES
 
 CREATE TABLE `positions` (
   `ID` int(10) UNSIGNED NOT NULL,
-  `Должность` varchar(30) COLLATE utf8_bin NOT NULL
+  `Role` varchar(30) COLLATE utf8_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Дамп данных таблицы `positions`
 --
 
-INSERT INTO `positions` (`ID`, `Должность`) VALUES
+INSERT INTO `positions` (`ID`, `Role`) VALUES
 (0, 'Кандидат'),
 (1, 'Водитель'),
 (2, 'Подписант'),
@@ -205,7 +206,7 @@ INSERT INTO `sheet` (`ID`, `NumberSheet`, `DateSheet`, `IDgarage`, `IDsigner`) V
 
 CREATE TABLE `worker` (
   `ID` int(10) UNSIGNED NOT NULL,
-  `FIO` varchar(100) COLLATE utf8_bin NOT NULL,
+  `FIO` varchar(101) COLLATE utf8_bin NOT NULL,
   `loginUser` varchar(20) COLLATE utf8_bin NOT NULL,
   `passwordUser` varchar(30) COLLATE utf8_bin NOT NULL,
   `Function` int(10) UNSIGNED NOT NULL DEFAULT '1',
@@ -222,8 +223,7 @@ INSERT INTO `worker` (`ID`, `FIO`, `loginUser`, `passwordUser`, `Function`, `IDb
 (3, 'Сидоров В.М.', 'sidorov_test', 'sidorov__test', 1, 2),
 (4, 'Кузнецов А.Б.', 'kuznecov_test', 'kuznecov__test', 2, 1),
 (5, 'Васильев С.К.', 'vasiliev_test', 'vasiliev__test', 2, 2),
-(12, 'ELMIR.WEB', 'admin', 'admin1', 3, 1),
-(19, 'Тестеров Б.М.', 'login1', 'pass1', 0, 0);
+(33, 'Кубагушев Эльмир Ирекович', 'ELMIR.WEB', 'ELMIR.PASSWORD', 3, 0);
 
 --
 -- Индексы сохранённых таблиц
@@ -295,25 +295,25 @@ ALTER TABLE `worker`
 -- AUTO_INCREMENT для таблицы `base`
 --
 ALTER TABLE `base`
-  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT для таблицы `car`
 --
 ALTER TABLE `car`
-  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT для таблицы `garage`
 --
 ALTER TABLE `garage`
-  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT для таблицы `gsm`
 --
 ALTER TABLE `gsm`
-  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT для таблицы `positions`
@@ -337,7 +337,7 @@ ALTER TABLE `sheet`
 -- AUTO_INCREMENT для таблицы `worker`
 --
 ALTER TABLE `worker`
-  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
