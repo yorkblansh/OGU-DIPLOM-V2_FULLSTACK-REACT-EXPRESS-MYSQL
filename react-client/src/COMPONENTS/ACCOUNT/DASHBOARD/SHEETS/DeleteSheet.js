@@ -1,16 +1,16 @@
 import Toast from "./../../../../Toast";
 import Cookies from "js-cookie";
 
-async function deleteVehicle(
-  veh = null,
+async function deleteSheet(
+  sheet,
   funcRequest,
-  loadVehicles,
+  loadSheets,
   statusAccessEditing
 ) {
   if (!statusAccessEditing) {
     new Toast({
-      title: "Ошибка при изменении автомобильной базы",
-      text: "У вашего аккаунта не достаточный уровень доступа, чтобы удалить автомобиль!",
+      title: "Ошибка при удалении автомобильной базы",
+      text: "У вашего аккаунта не достаточный уровень доступа, чтобы удалить ведомость!",
       theme: "danger",
       autohide: true,
       interval: 10000,
@@ -21,15 +21,15 @@ async function deleteVehicle(
   let tempUserAuthCookie = Cookies.get("OGU_DIPLOM_COOKIE_AUTHTOKEN");
 
   const response = await funcRequest(
-    `/api/vehicle/delete/${veh.ID}`,
+    `/api/sheet/delete/${sheet.ID}`,
     "DELETE",
-    null,
+    sheet,
     tempUserAuthCookie
   );
 
   if (response.ok === false && response.status === 400) {
     new Toast({
-      title: "Ошибка при удалении автомобиля",
+      title: "Ошибка при удалении ведомости",
       text: response.responseFetch,
       theme: "danger",
       autohide: true,
@@ -46,7 +46,7 @@ async function deleteVehicle(
     interval: 10000,
   });
 
-  loadVehicles();
+  loadSheets();
 }
 
-export default deleteVehicle;
+export default deleteSheet;

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Мар 25 2022 г., 20:45
+-- Время создания: Мар 26 2022 г., 18:59
 -- Версия сервера: 5.5.62
 -- Версия PHP: 7.1.33
 
@@ -158,21 +158,20 @@ CREATE TABLE `record` (
   `IDdriver` int(10) UNSIGNED NOT NULL,
   `NumberPL` varchar(10) COLLATE utf8_bin NOT NULL,
   `IDgsm` int(10) UNSIGNED NOT NULL,
-  `Liter` decimal(10,3) NOT NULL,
-  `Kilo` decimal(10,3) NOT NULL
+  `Liter` decimal(10,3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Дамп данных таблицы `record`
 --
 
-INSERT INTO `record` (`ID`, `IDsheet`, `IDcar`, `IDdriver`, `NumberPL`, `IDgsm`, `Liter`, `Kilo`) VALUES
-(1, 1, 1, 1, '1', 1, '1.000', '0.750'),
-(2, 1, 1, 1, '2', 3, '1.000', '0.900'),
-(3, 2, 2, 2, '3', 1, '10.000', '7.500'),
-(4, 2, 4, 2, '4', 3, '10.000', '9.000'),
-(5, 3, 3, 3, '5', 2, '100.000', '85.000'),
-(6, 3, 3, 3, '6', 2, '10.000', '8.500');
+INSERT INTO `record` (`ID`, `IDsheet`, `IDcar`, `IDdriver`, `NumberPL`, `IDgsm`, `Liter`) VALUES
+(1, 1, 1, 1, '1', 1, '1.000'),
+(2, 1, 1, 1, '2', 3, '1.000'),
+(3, 2, 2, 2, '3', 1, '10.000'),
+(4, 2, 4, 2, '4', 3, '10.000'),
+(5, 3, 3, 3, '5', 2, '100.000'),
+(6, 3, 3, 3, '6', 2, '10.000');
 
 -- --------------------------------------------------------
 
@@ -195,8 +194,7 @@ CREATE TABLE `sheet` (
 INSERT INTO `sheet` (`ID`, `NumberSheet`, `DateSheet`, `IDgarage`, `IDsigner`) VALUES
 (1, '111', '2021-09-01', 1, 4),
 (2, '222', '2021-09-01', 2, 4),
-(3, '333', '2021-09-01', 3, 5),
-(4, '333', '2019-09-01', 3, 5);
+(3, '5', '2022-03-26', 1, 33);
 
 -- --------------------------------------------------------
 
@@ -223,7 +221,7 @@ INSERT INTO `worker` (`ID`, `FIO`, `loginUser`, `passwordUser`, `Function`, `IDb
 (3, 'Сидоров В.М.', 'sidorov_test', 'sidorov__test', 1, 2),
 (4, 'Кузнецов А.Б.', 'kuznecov_test', 'kuznecov__test', 2, 1),
 (5, 'Васильев С.К.', 'vasiliev_test', 'vasiliev__test', 2, 2),
-(33, 'Кубагушев Эльмир Ирекович', 'ELMIR.WEB', 'ELMIR.PASSWORD', 3, 0);
+(33, 'Кубагушев Эльмир Ирекович', 'ELMIR.WEB', 'ELMIR.PASSWORD', 2, 0);
 
 --
 -- Индексы сохранённых таблиц
@@ -301,19 +299,19 @@ ALTER TABLE `base`
 -- AUTO_INCREMENT для таблицы `car`
 --
 ALTER TABLE `car`
-  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT для таблицы `garage`
 --
 ALTER TABLE `garage`
-  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT для таблицы `gsm`
 --
 ALTER TABLE `gsm`
-  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT для таблицы `positions`
@@ -331,13 +329,13 @@ ALTER TABLE `record`
 -- AUTO_INCREMENT для таблицы `sheet`
 --
 ALTER TABLE `sheet`
-  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT для таблицы `worker`
 --
 ALTER TABLE `worker`
-  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц

@@ -17,6 +17,8 @@ const typesGSMRouter = require("./routes/TypesGSM.Router");
 const autoGarageRouter = require("./routes/AutoGarage.Router");
 const vehicleRouter = require("./routes/Vehicle.Router");
 const workersRouter = require("./routes/Worker.Router");
+const sheetRouter = require("./routes/Sheet.Router");
+const recordRouter = require("./routes/Record.Router");
 
 // __________________________________________________ ОБЪЕКТЫ
 const app = express(); // Создаем приложение Express JS
@@ -96,3 +98,5 @@ app.use("/api", typesGSMRouter);
 app.use("/api", autoGarageRouter);
 app.use("/api", vehicleRouter);
 app.use("/api", workersRouter);
+app.use("/api", sheetRouter);
+app.use("/api", recordRouter);

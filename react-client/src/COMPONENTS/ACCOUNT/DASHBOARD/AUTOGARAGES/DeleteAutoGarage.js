@@ -10,7 +10,7 @@ async function deleteAutoGarage(
   if (!statusAccessEditing) {
     new Toast({
       title: "Ошибка при изменении автомобильной базы",
-      text: "У вашего аккаунта не достаточный уровень доступа, чтобы изменить автомобильную базу!",
+      text: "У вашего аккаунта не достаточный уровень доступа, чтобы удалить гараж!",
       theme: "danger",
       autohide: true,
       interval: 10000,

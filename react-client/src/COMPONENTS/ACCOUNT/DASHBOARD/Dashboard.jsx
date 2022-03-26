@@ -233,11 +233,21 @@ const Dashboard = ({ funcRequest, workerAccount, setWorkerAccount }) => {
               />
               <Route
                 path="sheets"
-                element={<Sheets funcRequest={funcRequest} />}
+                element={
+                  <Sheets
+                    funcRequest={funcRequest}
+                    workerAccount={workerAccount}
+                  />
+                }
               />
               <Route
                 path="records"
-                element={<Records funcRequest={funcRequest} />}
+                element={
+                  <Records
+                    funcRequest={funcRequest}
+                    workerAccount={workerAccount}
+                  />
+                }
               />
               <Route
                 path="gsm-day-garage"
