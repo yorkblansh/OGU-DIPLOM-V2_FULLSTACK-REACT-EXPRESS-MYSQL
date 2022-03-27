@@ -10,8 +10,6 @@ import Toast from "./../../../../Toast";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 
-import "./Records.scss";
-
 import deleteRecord from "./DeleteRecord";
 import beginUpdateRecord from "./BeginUpdateRecord";
 import eventChangedRecord from "./EventChangedRecord";

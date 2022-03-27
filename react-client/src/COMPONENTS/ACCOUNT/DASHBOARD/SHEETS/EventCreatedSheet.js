@@ -37,7 +37,7 @@ async function eventCreatedSheet(
 
   if (response.ok === false && response.status === 400) {
     new Toast({
-      title: "Ошибка при создании гаража",
+      title: "Ошибка при создании ведомости",
       text: response.responseFetch,
       theme: "danger",
       autohide: true,

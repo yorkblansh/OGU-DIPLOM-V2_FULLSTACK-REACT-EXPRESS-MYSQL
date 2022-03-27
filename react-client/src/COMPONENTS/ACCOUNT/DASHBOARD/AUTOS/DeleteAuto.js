@@ -9,7 +9,7 @@ async function deleteVehicle(
 ) {
   if (!statusAccessEditing) {
     new Toast({
-      title: "Ошибка при изменении автомобильной базы",
+      title: "Ошибка при удалении автомобиля",
       text: "У вашего аккаунта не достаточный уровень доступа, чтобы удалить автомобиль!",
       theme: "danger",
       autohide: true,

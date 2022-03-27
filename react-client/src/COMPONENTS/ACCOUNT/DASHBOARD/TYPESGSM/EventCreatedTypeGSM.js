@@ -20,7 +20,7 @@ async function eventCreatedTypeGSM(
 
   if (response.ok === false && response.status === 400) {
     new Toast({
-      title: "Ошибка при изменении типа ГСМ",
+      title: "Ошибка при создании типа ГСМ",
       text: response.responseFetch,
       theme: "danger",
       autohide: true,

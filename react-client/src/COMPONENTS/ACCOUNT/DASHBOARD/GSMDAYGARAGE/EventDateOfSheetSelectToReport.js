@@ -13,7 +13,7 @@ async function eventDateOfSheetSelectToReport(
   if (!statusAccessEditing) {
     new Toast({
       title: "Ошибка при выборе гаража",
-      text: "У вашего аккаунта не достаточный уровень доступа, чтобы изменить путевой лист!",
+      text: "У вашего аккаунта не достаточный уровень доступа, чтобы получить отчет!",
       theme: "danger",
       autohide: true,
       interval: 10000,

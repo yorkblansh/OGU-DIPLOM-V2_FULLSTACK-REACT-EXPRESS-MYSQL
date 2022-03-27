@@ -9,7 +9,7 @@ async function beginUpdateVeh(
 ) {
   if (!statusAccessEditing) {
     new Toast({
-      title: "Ошибка при изменении автомобильной базы",
+      title: "Ошибка при изменении данных автомобиля",
       text: "У вашего аккаунта не достаточный уровень доступа, чтобы изменить данные автомобиля!",
       theme: "danger",
       autohide: true,

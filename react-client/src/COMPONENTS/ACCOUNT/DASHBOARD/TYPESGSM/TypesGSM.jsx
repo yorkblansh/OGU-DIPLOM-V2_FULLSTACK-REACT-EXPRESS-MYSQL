@@ -5,8 +5,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import Cookies from "js-cookie";
 
-import "./TypesGSM.scss";
-
 import deleteTypeGSM from "./DeleteTypeGSM";
 import beginUpdateGSM from "./BeginUpdateGSM";
 import eventChangedTypeGSM from "./EventChangedTypeGSM";

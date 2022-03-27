@@ -7,8 +7,6 @@ import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import Button from "@mui/material/Button";
 
-import "./GsmDayGarage.scss";
-
 import eventGarageSelectToReport from "./EventGarageSelectToReport";
 import eventDateOfSheetSelectToReport from "./EventDateOfSheetSelectToReport";
 

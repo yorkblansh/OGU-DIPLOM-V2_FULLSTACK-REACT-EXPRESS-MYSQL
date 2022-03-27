@@ -10,7 +10,7 @@ async function beginUpdateRecord(
 ) {
   if (!statusAccessEditing) {
     new Toast({
-      title: "Ошибка при удалении изменении листа",
+      title: "Ошибка при изменении путевого листа",
       text: "У вашего аккаунта не достаточный уровень доступа, чтобы изменить путевой лист!",
       theme: "danger",
       autohide: true,

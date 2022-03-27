@@ -10,8 +10,6 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Toast from "./../../../../Toast";
 
-import "./Workers.scss";
-
 import deleteWorker from "./DeleteWorker";
 import beginUpdateWorker from "./BeginUpdateWorker";
 import eventChangedWorker from "./EventChangedWorker";

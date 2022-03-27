@@ -9,7 +9,7 @@ async function beginUpdateAutoGaraga(
 ) {
   if (!statusAccessEditing) {
     new Toast({
-      title: "Ошибка при изменении автомобильной базы",
+      title: "Ошибка при изменении автомобильного гаража",
       text: "У вашего аккаунта не достаточный уровень доступа, чтобы изменить данные гаража!",
       theme: "danger",
       autohide: true,

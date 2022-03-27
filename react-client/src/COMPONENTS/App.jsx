@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 
-import "./App.scss";
-
 import MainPage from "./MAINPAGE/MainPage";
 
 import Register from "./ACCOUNT/REGISTER/Register";

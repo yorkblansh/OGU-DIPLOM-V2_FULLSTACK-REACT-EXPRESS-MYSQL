@@ -15,8 +15,6 @@ import beginUpdateVeh from "./BeginUpdateAuto";
 import eventChangedAuto from "./EventChangedAuto";
 import eventCreatedAuto from "./EventCreatedAuto";
 
-import "./Autos.scss";
-
 const Autos = ({ funcRequest }) => {
   let [statusAccessEditing, setStatusAccessEditing] = useState(false);
   let [allVehicles, setVehicles] = useState([]);
@@ -329,7 +327,7 @@ const Autos = ({ funcRequest }) => {
           </div>
         </div>
       ) : (
-        <h4>У вас нет доступа для создания или автомобилей</h4>
+        <h4>У вас нет доступа для создания или изменения автомобилей</h4>
       )}
     </div>
   );

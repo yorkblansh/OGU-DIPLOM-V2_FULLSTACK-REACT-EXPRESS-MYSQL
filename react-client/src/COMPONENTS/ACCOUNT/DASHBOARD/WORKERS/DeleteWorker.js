@@ -52,7 +52,7 @@ async function deleteWorker(
 
   if (workerAccount.ID === worker.ID) {
     new Toast({
-      title: "Вы отредактировали свой аккаунт!",
+      title: "Вы удалили свой аккаунт!",
       text: "Так как вы удалили свой аккаунт, с этого момента у вас нет доступа к вашему профилю. Прощайте:)",
       theme: "warning",
       autohide: true,

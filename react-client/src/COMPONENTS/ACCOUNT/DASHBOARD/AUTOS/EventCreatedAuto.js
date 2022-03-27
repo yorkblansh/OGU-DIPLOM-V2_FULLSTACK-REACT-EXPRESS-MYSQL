@@ -20,7 +20,7 @@ async function eventCreatedAuto(
 
   if (response.ok === false && response.status === 400) {
     new Toast({
-      title: "Ошибка при создании гаража",
+      title: "Ошибка при создании автомобиля",
       text: response.responseFetch,
       theme: "danger",
       autohide: true,

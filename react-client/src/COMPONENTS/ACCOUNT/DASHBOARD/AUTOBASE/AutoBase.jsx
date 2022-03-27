@@ -5,8 +5,6 @@ import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 
-import "./AutoBase.scss";
-
 import deleteAutoBase from "./DeleteAutoBase";
 import beginUpdateAutoBase from "./BeginUpdateAutoBase";
 import eventChangedAutoBase from "./EventChangedAutoBase";

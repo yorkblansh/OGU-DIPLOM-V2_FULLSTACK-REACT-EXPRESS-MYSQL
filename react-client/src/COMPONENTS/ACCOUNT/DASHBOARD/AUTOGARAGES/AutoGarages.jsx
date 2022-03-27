@@ -10,8 +10,6 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Toast from "./../../../../Toast";
 
-import "./AutoGarages.scss";
-
 import deleteAutoGarage from "./DeleteAutoGarage";
 import beginUpdateAutoGaraga from "./BeginUpdateAutoGarage";
 import eventChangedAutoGarage from "./EventChangedAutoGarage";

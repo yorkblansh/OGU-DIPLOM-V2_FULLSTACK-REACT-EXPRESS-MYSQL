@@ -9,8 +9,8 @@ async function deleteTypeGSM(
 ) {
   if (!statusAccessEditing) {
     new Toast({
-      title: "Ошибка при удалении автомобильной базы",
-      text: "У вашего аккаунта не достаточный уровень доступа, чтобы удалить вид ГСМ!",
+      title: "Ошибка при удалении типа ГСМ",
+      text: "У вашего аккаунта не достаточный уровень доступа, чтобы удалить тип ГСМ!",
       theme: "danger",
       autohide: true,
       interval: 10000,

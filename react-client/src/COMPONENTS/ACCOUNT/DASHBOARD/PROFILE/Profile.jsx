@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import Cookies from "js-cookie";
-import Toast from "./../../../../Toast";
 
 import "./Profile.scss";
+
+import changeFIO from "./ChangeFIO";
+import changeFIOEvent from "./EventChangeFIO";
+import changeAccessData from "./ChangeAccessData";
+import changeAccessDataEvent from "./EventChangeAccessData";
 
 import Avatar from "./AVATAR/Avatar";
 
@@ -13,99 +16,6 @@ const Profile = ({ workerAccount, funcRequest, setWorkerAccount }) => {
   const [dataFIO, setDataFIO] = useState(null);
   const [changedAccessData, setChangedAccessData] = useState(false);
   const [dataAccess, setDataAccess] = useState(null);
-
-  function changeFIO() {
-    const tempFIOArray = workerAccount?.FIO?.split(" ");
-
-    setDataFIO({
-      FIO1: tempFIOArray[0],
-      FIO2: tempFIOArray[1],
-      FIO3: tempFIOArray[2],
-    });
-
-    setChangedFIO(true);
-  }
-
-  function changeAccessData() {
-    setDataAccess({
-      loginUser: workerAccount.loginUser,
-      passwordUser: workerAccount.passwordUser,
-    });
-
-    setChangedAccessData(true);
-  }
-
-  async function changeFIOEvent() {
-    let tempUserAuthCookie = Cookies.get("OGU_DIPLOM_COOKIE_AUTHTOKEN");
-
-    const response = await funcRequest(
-      "/account/profile/change",
-      "POST",
-      dataFIO,
-      tempUserAuthCookie
-    );
-
-    if (response.ok === false && response.status === 400) {
-      new Toast({
-        title: "Ошибка при изменении данных",
-        text: response.responseFetch.message,
-        theme: "danger",
-        autohide: true,
-        interval: 10000,
-      });
-      return;
-    }
-
-    setWorkerAccount({ ...workerAccount, FIO: response.responseFetch.data });
-
-    setChangedFIO(false);
-
-    new Toast({
-      title: "Вас ждет успех!",
-      text: response.responseFetch.message,
-      theme: "success",
-      autohide: true,
-      interval: 10000,
-    });
-  }
-
-  async function changeAccessDataEvent() {
-    let tempUserAuthCookie = Cookies.get("OGU_DIPLOM_COOKIE_AUTHTOKEN");
-
-    const response = await funcRequest(
-      "/account/profile/access-data/change",
-      "POST",
-      dataAccess,
-      tempUserAuthCookie
-    );
-
-    if (response.ok === false && response.status === 400) {
-      new Toast({
-        title: "Ошибка при изменении данных",
-        text: response.responseFetch.message,
-        theme: "danger",
-        autohide: true,
-        interval: 10000,
-      });
-      return;
-    }
-
-    setWorkerAccount({
-      ...workerAccount,
-      loginUser: response.responseFetch.loginUser,
-      passwordUser: response.responseFetch.passwordUser,
-    });
-
-    setChangedAccessData(false);
-
-    new Toast({
-      title: "Вас ждет успех!",
-      text: response.responseFetch.message,
-      theme: "success",
-      autohide: true,
-      interval: 10000,
-    });
-  }
 
   return (
     <div className="Profile">
@@ -127,7 +37,7 @@ const Profile = ({ workerAccount, funcRequest, setWorkerAccount }) => {
             variant="outlined"
             fullWidth
             sx={{ mt: 1, mb: 1 }}
-            onClick={() => changeFIO()}
+            onClick={() => changeFIO(workerAccount, setDataFIO, setChangedFIO)}
           >
             Изменить фамилию и инициалы
           </Button>
@@ -170,7 +80,15 @@ const Profile = ({ workerAccount, funcRequest, setWorkerAccount }) => {
             <Button
               variant="outlined"
               sx={{ mt: 1, mb: 1 }}
-              onClick={() => changeFIOEvent()}
+              onClick={() =>
+                changeFIOEvent(
+                  funcRequest,
+                  dataFIO,
+                  setWorkerAccount,
+                  workerAccount,
+                  setChangedFIO
+                )
+              }
             >
               Сохранить
             </Button>
@@ -188,7 +106,13 @@ const Profile = ({ workerAccount, funcRequest, setWorkerAccount }) => {
             variant="outlined"
             fullWidth
             sx={{ mt: 1, mb: 1 }}
-            onClick={() => changeAccessData()}
+            onClick={() =>
+              changeAccessData(
+                setDataAccess,
+                workerAccount,
+                setChangedAccessData
+              )
+            }
           >
             Изменить логин и пароль
           </Button>
@@ -221,7 +145,15 @@ const Profile = ({ workerAccount, funcRequest, setWorkerAccount }) => {
             <Button
               variant="outlined"
               sx={{ mt: 1, mb: 1 }}
-              onClick={() => changeAccessDataEvent()}
+              onClick={() =>
+                changeAccessDataEvent(
+                  funcRequest,
+                  dataAccess,
+                  setWorkerAccount,
+                  workerAccount,
+                  setChangedAccessData
+                )
+              }
             >
               Сохранить
             </Button>

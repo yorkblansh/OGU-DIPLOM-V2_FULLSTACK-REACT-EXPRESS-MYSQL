@@ -11,8 +11,6 @@ import Select from "@mui/material/Select";
 import Toast from "./../../../../Toast";
 import MenuItem from "@mui/material/MenuItem";
 
-import "./Sheets.scss";
-
 import deleteSheet from "./DeleteSheet";
 import beginUpdateSheet from "./BeginUpdateSheet";
 import eventChangedSheet from "./EventChangedSheet";

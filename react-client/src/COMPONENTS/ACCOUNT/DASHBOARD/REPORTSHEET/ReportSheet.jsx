@@ -7,8 +7,6 @@ import Toast from "./../../../../Toast";
 import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
 
-import "./ReportSheet.scss";
-
 import eventSelectedSheet from "./EventSelectedSheet";
 
 const ReportSheet = ({ funcRequest }) => {

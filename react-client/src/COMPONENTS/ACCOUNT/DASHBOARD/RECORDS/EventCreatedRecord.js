@@ -9,7 +9,7 @@ async function eventCreatedRecord(
 ) {
   if (createRecord === null) {
     new Toast({
-      title: "Ошибка при создании ведомости",
+      title: "Ошибка при создании путевого листа",
       text: "Ошибка: вы нечего не сделали",
       theme: "danger",
       autohide: true,
@@ -31,7 +31,7 @@ async function eventCreatedRecord(
 
   if (response.ok === false && response.status === 400) {
     new Toast({
-      title: "Ошибка при создании гаража",
+      title: "Ошибка при создании путевого листа",
       text: response.responseFetch,
       theme: "danger",
       autohide: true,

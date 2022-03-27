@@ -9,7 +9,7 @@ async function beginUpdateGSM(
 ) {
   if (!statusAccessEditing) {
     new Toast({
-      title: "Ошибка при изменении автомобильной базы",
+      title: "Ошибка при изменении типа ГСМ",
       text: "У вашего аккаунта не достаточный уровень доступа, чтобы изменить данные ГСМ!",
       theme: "danger",
       autohide: true,

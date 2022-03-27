@@ -9,7 +9,7 @@ async function deleteAutoGarage(
 ) {
   if (!statusAccessEditing) {
     new Toast({
-      title: "Ошибка при изменении автомобильной базы",
+      title: "Ошибка при удалении автомобильного гаража",
       text: "У вашего аккаунта не достаточный уровень доступа, чтобы удалить гараж!",
       theme: "danger",
       autohide: true,
@@ -17,8 +17,6 @@ async function deleteAutoGarage(
     });
     return;
   }
-
-  // TODO: РАЗОБРАТЬСЯ ПОЧЕМУ "УСПЕХ БЫЛ ЕСЛИ ВЫШЕ УБРАТЬ ОТСУТСТВИЕ ДОСТУПА"
 
   let tempUserAuthCookie = Cookies.get("OGU_DIPLOM_COOKIE_AUTHTOKEN");
 

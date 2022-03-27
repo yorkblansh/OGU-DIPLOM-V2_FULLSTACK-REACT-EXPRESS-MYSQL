@@ -31,7 +31,7 @@ async function eventChangedRecord(
 
   if (response.ok === false && response.status === 400) {
     new Toast({
-      title: "Ошибка при изменении автомобиля",
+      title: "Ошибка при изменении путевого листа",
       text: response.responseFetch,
       theme: "danger",
       autohide: true,

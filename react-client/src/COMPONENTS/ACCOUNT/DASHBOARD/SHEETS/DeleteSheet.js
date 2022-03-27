@@ -9,7 +9,7 @@ async function deleteSheet(
 ) {
   if (!statusAccessEditing) {
     new Toast({
-      title: "Ошибка при удалении автомобильной базы",
+      title: "Ошибка при удалении ведомости",
       text: "У вашего аккаунта не достаточный уровень доступа, чтобы удалить ведомость!",
       theme: "danger",
       autohide: true,
