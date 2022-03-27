@@ -43,7 +43,7 @@ const Records = ({ funcRequest, workerAccount }) => {
     let tempUserAuthCookie = Cookies.get("OGU_DIPLOM_COOKIE_AUTHTOKEN");
 
     const tempGetAccess = await funcRequest(
-      "/api/sheet/access",
+      "/api/record/access",
       "GET",
       null,
       tempUserAuthCookie
